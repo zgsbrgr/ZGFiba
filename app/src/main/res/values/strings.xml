@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ZG Fiba</string>
+
+    <string name="top_label">EuroBasket 2022</string>
+    <string name="description">Watch all games of the FIBA EuroBasket 2022 live and on-demand on Courtside 1891.\nWho will be crowned EuroBasket champions on September 18?\nWatch it all here.</string>
+
+    <string name="all">View all</string>
+    <string name="section_pl">Best of EuroBasket|2022</string>
+    <string name="date_pl">Full Time | %s</string>
+</resources>

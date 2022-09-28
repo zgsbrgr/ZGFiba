@@ -1,0 +1,24 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+    buildscript {
+        ext.kotlin_version = '1.6.10'
+        dependencies {
+            classpath("com.google.dagger:hilt-android-gradle-plugin:2.42")
+            // kotlinx serialization used for retrofit json adapter
+            classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+        }
+    }
+}
+rootProject.name = "ZG Fiba"
+include ':app'
