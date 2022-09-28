@@ -25,5 +25,8 @@
             android:name="imageUri"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="match"
+            app:argType="com.zgsbrgr.demo.fiba.domain.Match" />
     </fragment>
 </navigation>
