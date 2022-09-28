@@ -1,0 +1,3 @@
+style:
+  UnusedPrivateMember:
+    allowedNames: '(_|ignored|expected|serialVersionUID|Preview\w*)'

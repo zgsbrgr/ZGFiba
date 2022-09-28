@@ -1,3 +1,4 @@
+@file:Suppress("ComplexMethod")
 package com.zgsbrgr.demo.fiba.ui.adapter.decor
 
 import android.graphics.Rect
@@ -35,13 +36,13 @@ class SpaceItemDecoration(
                 val dividedSpace = spacePx / 2
 
                 when (layoutManager.orientation) {
-                    GridLayoutManager.VERTICAL -> {
+                    RecyclerView.VERTICAL -> {
                         outRect.left = if (layoutParams.spanIndex == 0) 0 else dividedSpace
                         outRect.right = if (isAxisEndSpan) 0 else dividedSpace
                         outRect.top = if (adapterPos < layoutManager.spanCount && !beforeFirst) 0 else dividedSpace
                         outRect.bottom = if (isCrossAxisEndSpan && !afterLast) 0 else dividedSpace
                     }
-                    GridLayoutManager.HORIZONTAL -> {
+                    RecyclerView.HORIZONTAL -> {
                         outRect.top = if (layoutParams.spanIndex == 0) 0 else dividedSpace
                         outRect.bottom = if (isAxisEndSpan) 0 else dividedSpace
                         outRect.left = if (adapterPos < layoutManager.spanCount && !beforeFirst) 0 else dividedSpace

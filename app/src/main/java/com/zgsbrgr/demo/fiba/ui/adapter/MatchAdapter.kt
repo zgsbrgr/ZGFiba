@@ -1,3 +1,6 @@
+
+@file:Suppress("MagicNumber")
+
 package com.zgsbrgr.demo.fiba.ui.adapter
 
 import android.graphics.Typeface
@@ -15,7 +18,9 @@ import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.ItemMatchBinding
 import com.zgsbrgr.demo.fiba.domain.Match
 
-class MatchAdapter(private val clickListener: MatchItemClickListener): ListAdapter<Match, MatchAdapter.MatchViewHolder>(MatchDiffUtilCallback()) {
+class MatchAdapter(
+    private val clickListener: MatchItemClickListener
+    ): ListAdapter<Match, MatchAdapter.MatchViewHolder>(MatchDiffUtilCallback()) {
 
     override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
         holder.bind(getItem(position), clickListener)
@@ -25,7 +30,9 @@ class MatchAdapter(private val clickListener: MatchItemClickListener): ListAdapt
         return MatchViewHolder.from(parent)
     }
 
-    class MatchViewHolder private constructor(private val binding: ItemMatchBinding): RecyclerView.ViewHolder(binding.root) {
+    class MatchViewHolder private constructor(
+        private val binding: ItemMatchBinding
+        ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Match, clickListener: MatchItemClickListener) {
             binding.itemMatch = item
@@ -76,7 +83,7 @@ class MatchAdapter(private val clickListener: MatchItemClickListener): ListAdapt
 
     }
 
-    class MatchDiffUtilCallback(): DiffUtil.ItemCallback<Match>() {
+    class MatchDiffUtilCallback: DiffUtil.ItemCallback<Match>() {
         override fun areContentsTheSame(oldItem: Match, newItem: Match): Boolean {
             return oldItem == newItem
         }

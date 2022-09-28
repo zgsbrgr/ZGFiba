@@ -14,7 +14,9 @@ import com.zgsbrgr.demo.fiba.databinding.ItemSectionBinding
 import com.zgsbrgr.demo.fiba.domain.Section
 import com.zgsbrgr.demo.fiba.ui.adapter.decor.SpaceItemDecoration
 
-class SectionAdapter(private val clickListener: SectionClickListener<in Any>): ListAdapter<Section, SectionAdapter.SectionViewHolder>(SectionDiffCallback()) {
+class SectionAdapter(
+    private val clickListener: SectionClickListener<in Any>
+    ): ListAdapter<Section, SectionAdapter.SectionViewHolder>(SectionDiffCallback()) {
 
     private val viewPool: RecyclerView.RecycledViewPool = RecyclerView.RecycledViewPool()
 
@@ -26,7 +28,9 @@ class SectionAdapter(private val clickListener: SectionClickListener<in Any>): L
         return SectionViewHolder.from(parent, viewPool)
     }
 
-    class SectionViewHolder private constructor(private val binding: ItemSectionBinding): RecyclerView.ViewHolder(binding.root) {
+    class SectionViewHolder private constructor(
+        private val binding: ItemSectionBinding
+        ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Section, clickListener: SectionClickListener<in Any>) {
             binding.item = item

@@ -52,9 +52,9 @@ class Home: Fragment() {
                 if(item is Match) {
 
                     val extras =  FragmentNavigatorExtras(
-                        it to (item as Match).thumb!!
+                        it to item.thumb!!
                     )
-                    val action = HomeDirections.actionHomeToMatchDetail(imageUri = (item as Match).thumb!!)
+                    val action = HomeDirections.actionHomeToMatchDetail(imageUri = item.thumb)
                     findNavController().navigate(action, extras)
                 }
             }
@@ -72,3 +72,4 @@ class Home: Fragment() {
 
     }
 }
+
