@@ -13,6 +13,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("org.jlleitschuh.gradle.ktlint")
     id("io.gitlab.arturbosch.detekt")
+    id("kotlin-parcelize")
 }
 
 android {
