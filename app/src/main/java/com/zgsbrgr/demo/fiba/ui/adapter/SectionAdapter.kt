@@ -1,6 +1,5 @@
 package com.zgsbrgr.demo.fiba.ui.adapter
 
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,7 +15,7 @@ import com.zgsbrgr.demo.fiba.ui.adapter.decor.SpaceItemDecoration
 
 class SectionAdapter(
     private val clickListener: SectionClickListener<in Any>
-    ): ListAdapter<Section, SectionAdapter.SectionViewHolder>(SectionDiffCallback()) {
+) : ListAdapter<Section, SectionAdapter.SectionViewHolder>(SectionDiffCallback()) {
 
     private val viewPool: RecyclerView.RecycledViewPool = RecyclerView.RecycledViewPool()
 
@@ -30,14 +29,16 @@ class SectionAdapter(
 
     class SectionViewHolder private constructor(
         private val binding: ItemSectionBinding
-        ): RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Section, clickListener: SectionClickListener<in Any>) {
             binding.item = item
-            val adapter = MatchAdapter(MatchItemClickListener { match, imageView ->
-                Log.d("Section List", "match item clicked with id: ${match.id} and shared image ${imageView.id}")
-                clickListener.onClick(match, imageView)
-            })
+            val adapter = MatchAdapter(
+                MatchItemClickListener { match, imageView ->
+                    Log.d("Section List", "match item clicked with id: ${match.id} and shared image ${imageView.id}")
+                    clickListener.onClick(match, imageView)
+                }
+            )
             binding.gamesRv.adapter = adapter
             adapter.submitList(item.matches)
             binding.executePendingBindings()
@@ -49,16 +50,15 @@ class SectionAdapter(
                 val binding = ItemSectionBinding.inflate(layoutInflater, parent, false)
                 binding.gamesRv.apply {
                     layoutManager = LinearLayoutManager(binding.gamesRv.context, LinearLayoutManager.HORIZONTAL, false)
-                    addItemDecoration(SpaceItemDecoration(R.dimen.space,false))
+                    addItemDecoration(SpaceItemDecoration(R.dimen.space, false))
                     setRecycledViewPool(viewPool)
                 }
                 return SectionViewHolder(binding)
             }
         }
-
     }
 
-    class SectionDiffCallback: DiffUtil.ItemCallback<Section>() {
+    class SectionDiffCallback : DiffUtil.ItemCallback<Section>() {
         override fun areContentsTheSame(oldItem: Section, newItem: Section): Boolean {
             return oldItem == newItem
         }
@@ -69,6 +69,6 @@ class SectionAdapter(
     }
 }
 
-class SectionClickListener<T>(val clickListener:(item:T, imageView: ImageView?) -> Unit) {
+class SectionClickListener<T>(val clickListener: (item: T, imageView: ImageView?) -> Unit) {
     fun onClick(item: T, imageView: ImageView?) = clickListener(item, imageView)
 }

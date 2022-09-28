@@ -48,7 +48,6 @@ class SpaceItemDecoration(
                         outRect.left = if (adapterPos < layoutManager.spanCount && !beforeFirst) 0 else dividedSpace
                         outRect.right = if (isCrossAxisEndSpan && !afterLast) 0 else dividedSpace
                     }
-
                 }
             }
             is LinearLayoutManager -> {

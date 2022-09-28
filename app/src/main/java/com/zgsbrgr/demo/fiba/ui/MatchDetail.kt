@@ -10,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.zgsbrgr.demo.fiba.databinding.MatchDetailBinding
 
-class MatchDetail: Fragment() {
+class MatchDetail : Fragment() {
 
     private lateinit var viewBinding: MatchDetailBinding
 
@@ -38,7 +38,6 @@ class MatchDetail: Fragment() {
             Glide.with(this)
                 .load(args.imageUri)
                 .into(this)
-
         }
     }
 }

@@ -14,5 +14,4 @@ object RepositoryModule {
 
     @Provides
     fun provideHomeRepository(api: Api): HomeRepository = HomeRepositoryImpl(api)
-
 }

@@ -1,6 +1,6 @@
 package com.zgsbrgr.demo.fiba.domain
 
-import java.util.*
+import java.util.UUID
 
 data class Section(
     val id: String = UUID.randomUUID().toString(),

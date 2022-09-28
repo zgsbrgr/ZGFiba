@@ -7,27 +7,27 @@ import com.zgsbrgr.demo.fiba.asResult
 import com.zgsbrgr.demo.fiba.data.HomeRepository
 import com.zgsbrgr.demo.fiba.domain.Section
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUIState<Section>(loading = true))
     val uiState: StateFlow<HomeUIState<Section>> = _uiState.asStateFlow()
 
     init {
         val result = homeRepository.loadDataForHome().asResult()
-        result.onEach { dataResult->
+        result.onEach { dataResult ->
             _uiState.update {
-                when(dataResult) {
+                when (dataResult) {
                     is Result.Loading -> {
                         it.copy(loading = true)
                     }
@@ -40,9 +40,7 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
-
     }
-
 }
 
 data class HomeUIState<T>(

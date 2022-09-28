@@ -20,7 +20,7 @@ import com.zgsbrgr.demo.fiba.domain.Match
 
 class MatchAdapter(
     private val clickListener: MatchItemClickListener
-    ): ListAdapter<Match, MatchAdapter.MatchViewHolder>(MatchDiffUtilCallback()) {
+) : ListAdapter<Match, MatchAdapter.MatchViewHolder>(MatchDiffUtilCallback()) {
 
     override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
         holder.bind(getItem(position), clickListener)
@@ -32,7 +32,7 @@ class MatchAdapter(
 
     class MatchViewHolder private constructor(
         private val binding: ItemMatchBinding
-        ): RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Match, clickListener: MatchItemClickListener) {
             binding.itemMatch = item
@@ -42,22 +42,20 @@ class MatchAdapter(
             }
             binding.awayTeamPoint.text = item.away.points.toString()
             binding.homeTeamPoint.text = item.home.points.toString()
-            if(item.away.winner) {
+            if (item.away.winner) {
                 binding.awayTeam.typeface = Typeface.DEFAULT_BOLD
                 binding.awayTeamPoint.typeface = Typeface.DEFAULT_BOLD
-            }
-            else {
+            } else {
                 binding.awayTeam.typeface = Typeface.DEFAULT
                 binding.awayTeamPoint.typeface = Typeface.DEFAULT
                 binding.awayTeam.alpha = 0.8f
                 binding.awayTeamPoint.alpha = 0.8f
             }
 
-            if(item.home.winner) {
+            if (item.home.winner) {
                 binding.homeTeam.typeface = Typeface.DEFAULT_BOLD
                 binding.homeTeamPoint.typeface = Typeface.DEFAULT_BOLD
-            }
-            else {
+            } else {
                 binding.homeTeam.typeface = Typeface.DEFAULT
                 binding.homeTeamPoint.typeface = Typeface.DEFAULT
                 binding.homeTeam.alpha = 0.8f
@@ -80,10 +78,9 @@ class MatchAdapter(
                 return MatchViewHolder(binding)
             }
         }
-
     }
 
-    class MatchDiffUtilCallback: DiffUtil.ItemCallback<Match>() {
+    class MatchDiffUtilCallback : DiffUtil.ItemCallback<Match>() {
         override fun areContentsTheSame(oldItem: Match, newItem: Match): Boolean {
             return oldItem == newItem
         }
@@ -108,7 +105,7 @@ fun matchDate(dateTextView: TextView, str: String?) {
 @BindingAdapter("winnerBold")
 fun setStyleForWinner(textView: TextView, isWinner: Boolean?) {
     isWinner?.let {
-        if(it)
+        if (it)
             textView.typeface = Typeface.DEFAULT_BOLD
         else
             textView.typeface = Typeface.DEFAULT

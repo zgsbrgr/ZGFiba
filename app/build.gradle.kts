@@ -31,7 +31,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles (
+            proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
@@ -116,7 +116,6 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.42")
     kapt("com.google.dagger:hilt-android-compiler:2.42")
 
-
     // retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
@@ -134,9 +133,7 @@ dependencies {
     // recyclerview, to set state restoration policy
     implementation("androidx.recyclerview:recyclerview:1.2.1")
 
-
     // navigation component
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.2")
-
 }

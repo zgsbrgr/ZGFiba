@@ -12,5 +12,4 @@ interface Api {
 
     @GET("results.json")
     suspend fun fetchResults(): NetworkResponse<List<SectionDto>>
-
 }

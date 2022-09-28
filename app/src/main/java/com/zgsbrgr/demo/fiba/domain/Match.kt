@@ -1,6 +1,6 @@
 package com.zgsbrgr.demo.fiba.domain
 
-import java.util.*
+import java.util.UUID
 
 data class Match(
     val id: String = UUID.randomUUID().toString(),
@@ -10,4 +10,3 @@ data class Match(
     val home: Team,
     val away: Team
 )
-

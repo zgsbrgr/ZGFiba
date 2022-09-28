@@ -15,5 +15,3 @@ fun SectionDto.toDomain(): Section = Section(
         it.toDomain()
     }
 )
-
-

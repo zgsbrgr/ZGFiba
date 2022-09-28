@@ -23,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class Home: Fragment() {
+class Home : Fragment() {
 
     private lateinit var viewBinding: HomeBinding
 
@@ -47,18 +47,20 @@ class Home: Fragment() {
 
         viewBinding.lifecycleOwner = this.viewLifecycleOwner
 
-        val adapter = SectionAdapter(SectionClickListener { item, imageView ->
-            imageView?.let {
-                if(item is Match) {
+        val adapter = SectionAdapter(
+            SectionClickListener { item, imageView ->
+                imageView?.let {
+                    if (item is Match) {
 
-                    val extras =  FragmentNavigatorExtras(
-                        it to item.thumb!!
-                    )
-                    val action = HomeDirections.actionHomeToMatchDetail(imageUri = item.thumb)
-                    findNavController().navigate(action, extras)
+                        val extras = FragmentNavigatorExtras(
+                            it to item.thumb!!
+                        )
+                        val action = HomeDirections.actionHomeToMatchDetail(imageUri = item.thumb)
+                        findNavController().navigate(action, extras)
+                    }
                 }
             }
-        })
+        )
         adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         viewBinding.homeRecycler.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launch {
@@ -69,7 +71,5 @@ class Home: Fragment() {
                 }
             }
         }
-
     }
 }
-

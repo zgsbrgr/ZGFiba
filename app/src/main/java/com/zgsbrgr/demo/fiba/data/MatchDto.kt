@@ -30,6 +30,6 @@ fun MatchDto.toDomain(): Match = Match(
 
 fun TeamDto.toDomain(): Team = Team(
     team = this.team,
-    points =  this.points,
+    points = this.points,
     winner = this.winner
 )
