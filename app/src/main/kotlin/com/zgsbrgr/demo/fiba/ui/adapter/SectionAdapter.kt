@@ -39,6 +39,10 @@ class SectionAdapter(
                     clickListener.onClick(match, item.section, imageView)
                 }
             )
+
+            binding.viewAllTv.setOnClickListener {
+                clickListener.onClick(bindingAdapterPosition, item.section, null)
+            }
             binding.gamesRv.adapter = adapter
             adapter.submitList(item.matches)
             binding.executePendingBindings()
