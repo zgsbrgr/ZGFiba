@@ -36,7 +36,7 @@ class MatchAdapter(
 
         fun bind(item: Match, clickListener: MatchItemClickListener) {
             binding.itemMatch = item
-            binding.preview.transitionName = item.thumb
+            binding.preview.transitionName = UUID.randomUUID().toString()
             binding.root.setOnClickListener {
                 clickListener.onClick(item, binding.preview)
             }
