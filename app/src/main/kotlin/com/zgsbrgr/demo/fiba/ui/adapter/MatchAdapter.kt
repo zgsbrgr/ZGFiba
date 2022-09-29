@@ -17,6 +17,7 @@ import com.bumptech.glide.request.target.Target
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.ItemMatchBinding
 import com.zgsbrgr.demo.fiba.domain.Match
+import java.util.UUID
 
 class MatchAdapter(
     private val clickListener: MatchItemClickListener

@@ -20,6 +20,7 @@ import com.zgsbrgr.demo.fiba.ui.adapter.SectionAdapter
 import com.zgsbrgr.demo.fiba.ui.adapter.SectionClickListener
 import com.zgsbrgr.demo.fiba.ui.adapter.decor.SpaceItemDecoration
 import com.zgsbrgr.demo.fiba.ui.detail.DetailActivity
+import com.zgsbrgr.demo.fiba.ui.matches.MatchesActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -51,8 +52,8 @@ class Home : Fragment() {
 
         val adapter = SectionAdapter(
             SectionClickListener { item, title, imageView ->
-                imageView?.let {
-                    if (item is Match) {
+                if (item is Match) {
+                    imageView?.let {
                         val intent = Intent(requireActivity(), DetailActivity::class.java)
 
                         intent.putExtra("match", item)
@@ -72,6 +73,11 @@ class Home : Fragment() {
 //                        val action = HomeDirections.actionHomeToMatchDetail(imageUri = item.thumb, match = item)
 //                        findNavController().navigate(action, extras)
                     }
+                } else if (item is Int) {
+                    val intent = Intent(requireActivity(), MatchesActivity::class.java)
+                    intent.putExtra("label", title)
+                    intent.putExtra("position", item)
+                    startActivity(intent)
                 }
             }
         )
