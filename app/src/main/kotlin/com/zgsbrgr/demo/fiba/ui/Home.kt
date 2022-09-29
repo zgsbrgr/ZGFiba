@@ -1,9 +1,12 @@
 package com.zgsbrgr.demo.fiba.ui
 
+import android.app.ActivityOptions
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -19,6 +22,7 @@ import com.zgsbrgr.demo.fiba.domain.Match
 import com.zgsbrgr.demo.fiba.ui.adapter.SectionAdapter
 import com.zgsbrgr.demo.fiba.ui.adapter.SectionClickListener
 import com.zgsbrgr.demo.fiba.ui.adapter.decor.SpaceItemDecoration
+import com.zgsbrgr.demo.fiba.ui.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -51,12 +55,22 @@ class Home : Fragment() {
             SectionClickListener { item, imageView ->
                 imageView?.let {
                     if (item is Match) {
-
-                        val extras = FragmentNavigatorExtras(
-                            it to item.thumb!!
-                        )
-                        val action = HomeDirections.actionHomeToMatchDetail(imageUri = item.thumb, match = item)
-                        findNavController().navigate(action, extras)
+                        val intent = Intent(requireActivity(), DetailActivity::class.java)
+                        intent.putExtra("match", item)
+                        intent.putExtra("imageUri", item.thumb)
+                        val options = ActivityOptions
+                            .makeSceneTransitionAnimation(
+                                requireActivity(),
+                                it,
+                                item.thumb!!
+                            )
+                        startActivity(intent, options.toBundle())
+                        // shared element transition with fragment
+//                        val extras = FragmentNavigatorExtras(
+//                            it to item.thumb!!
+//                        )
+//                        val action = HomeDirections.actionHomeToMatchDetail(imageUri = item.thumb, match = item)
+//                        findNavController().navigate(action, extras)
                     }
                 }
             }

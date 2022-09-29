@@ -5,6 +5,8 @@
     android:id="@+id/main_nav.xml"
     app:startDestination="@id/home">
 
+
+
     <fragment
         android:id="@+id/home"
         android:name="com.zgsbrgr.demo.fiba.ui.Home"
@@ -12,21 +14,8 @@
         tools:layout="@layout/home"
         >
         <action
-            android:id="@+id/action_home_to_matchDetail"
-            app:destination="@id/matchDetail" />
+            android:id="@+id/xml"
+            app:destination="@id/detail_nav.xml" />
     </fragment>
-    <fragment
-        android:id="@+id/matchDetail"
-        android:name="com.zgsbrgr.demo.fiba.ui.MatchDetail"
-        android:label="MatchDetail"
-        tools:layout="@layout/match_detail"
-        >
-        <argument
-            android:name="imageUri"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="match"
-            app:argType="com.zgsbrgr.demo.fiba.domain.Match" />
-    </fragment>
+    <include app:graph="@navigation/detail_nav" />
 </navigation>
