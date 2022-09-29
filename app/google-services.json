@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "548799620521",
+    "project_id": "zgfiba-59e26",
+    "storage_bucket": "zgfiba-59e26.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548799620521:android:c9572dcd36ceae759d10b8",
+        "android_client_info": {
+          "package_name": "com.zgsbrgr.demo.fiba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548799620521-t9ds4q20sv9lucdcepdqsj3gvj5mo08q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2S01hCFIBCqtgvvuyHj0-G59jtflbRYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548799620521-t9ds4q20sv9lucdcepdqsj3gvj5mo08q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548799620521:android:35d48d80c73ae6b19d10b8",
+        "android_client_info": {
+          "package_name": "com.zgsbrgr.demo.fiba.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548799620521-t9ds4q20sv9lucdcepdqsj3gvj5mo08q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2S01hCFIBCqtgvvuyHj0-G59jtflbRYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548799620521-t9ds4q20sv9lucdcepdqsj3gvj5mo08q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
