@@ -13,7 +13,7 @@ import com.zgsbrgr.demo.fiba.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailActivity: AppCompatActivity() {
+class DetailActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -36,15 +36,13 @@ class DetailActivity: AppCompatActivity() {
 
 
         setupActionBarWithNavController(navController, appBarConfiguration)
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return if(navController.currentDestination?.id == navController.graph.startDestinationId) {
+        return if (navController.currentDestination?.id == navController.graph.startDestinationId) {
             onBackPressedDispatcher.onBackPressed()
             true
-        }
-        else navController.navigateUp(appBarConfiguration)
+        } else navController.navigateUp(appBarConfiguration)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

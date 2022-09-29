@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/matchDetail"
-        android:name="com.zgsbrgr.demo.fiba.ui.MatchDetail"
-        android:label="MatchDetail"
+        android:name="com.zgsbrgr.demo.fiba.ui.detail.MatchDetail"
+        android:label="{label}"
         tools:layout="@layout/match_detail"
         >
         <argument
@@ -18,5 +18,8 @@
             android:name="imageUri"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="label"
+            app:argType="string" />
     </fragment>
 </navigation>

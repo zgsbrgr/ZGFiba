@@ -1,4 +1,4 @@
-package com.zgsbrgr.demo.fiba.ui
+package com.zgsbrgr.demo.fiba.ui.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

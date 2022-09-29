@@ -6,14 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zgsbrgr.demo.fiba.R
@@ -52,12 +49,14 @@ class Home : Fragment() {
         viewBinding.lifecycleOwner = this.viewLifecycleOwner
 
         val adapter = SectionAdapter(
-            SectionClickListener { item, imageView ->
+            SectionClickListener { item, title, imageView ->
                 imageView?.let {
                     if (item is Match) {
                         val intent = Intent(requireActivity(), DetailActivity::class.java)
+
                         intent.putExtra("match", item)
                         intent.putExtra("imageUri", item.thumb)
+                        intent.putExtra("label", title)
                         val options = ActivityOptions
                             .makeSceneTransitionAnimation(
                                 requireActivity(),
