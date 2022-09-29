@@ -14,6 +14,8 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
     id("io.gitlab.arturbosch.detekt")
     id("kotlin-parcelize")
+    id("com.google.firebase.appdistribution")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -30,6 +32,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            firebaseAppDistribution {
+                groups = "QA"
+            }
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -39,26 +46,26 @@ android {
 
         val environmentFlavorDimension = "environment"
         flavorDimensions.add(environmentFlavorDimension)
-        productFlavors {
-            create("production") {
-                isDefault = true
-                dimension = environmentFlavorDimension
-            }
-
-            create("staging") {
-                dimension = environmentFlavorDimension
-
-                applicationIdSuffix = ".stg"
-                versionNameSuffix = "-stg"
-            }
-
-            create("development") {
-                dimension = environmentFlavorDimension
-
-                applicationIdSuffix = ".dev"
-                versionNameSuffix = "-dev"
-            }
-        }
+//        productFlavors {
+//            create("production") {
+//                isDefault = true
+//                dimension = environmentFlavorDimension
+//            }
+//
+//            create("staging") {
+//                dimension = environmentFlavorDimension
+//
+//                applicationIdSuffix = ".stg"
+//                versionNameSuffix = "-stg"
+//            }
+//
+//            create("development") {
+//                dimension = environmentFlavorDimension
+//
+//                applicationIdSuffix = ".dev"
+//                versionNameSuffix = "-dev"
+//            }
+//        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
