@@ -36,7 +36,7 @@ class SectionAdapter(
             val adapter = MatchAdapter(
                 MatchItemClickListener { match, imageView ->
                     Log.d("Section List", "match item clicked with id: ${match.id} and shared image ${imageView.id}")
-                    clickListener.onClick(match, imageView)
+                    clickListener.onClick(match, item.section, imageView)
                 }
             )
             binding.gamesRv.adapter = adapter
@@ -69,6 +69,6 @@ class SectionAdapter(
     }
 }
 
-class SectionClickListener<T>(val clickListener: (item: T, imageView: ImageView?) -> Unit) {
-    fun onClick(item: T, imageView: ImageView?) = clickListener(item, imageView)
+class SectionClickListener<T>(val clickListener: (item: T, sectionTitle: String, imageView: ImageView?) -> Unit) {
+    fun onClick(item: T, sectionTitle: String, imageView: ImageView?) = clickListener(item, sectionTitle, imageView)
 }

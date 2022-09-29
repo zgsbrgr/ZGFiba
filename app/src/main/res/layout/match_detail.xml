@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="match"
+            name="itemMatch"
             type="com.zgsbrgr.demo.fiba.domain.Match" />
 
     </data>
@@ -17,22 +17,124 @@
         <ImageView
             android:id="@+id/preview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="220dp"
+            android:layout_height="230dp"
             android:adjustViewBounds="true"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="contentDescription" />
 
-        <TextView
-            android:id="@+id/wt"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/result"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/blue"
+            app:layout_constraintStart_toStartOf="@id/preview"
+            app:layout_constraintEnd_toEndOf="@id/preview"
             app:layout_constraintTop_toBottomOf="@id/preview"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="@{match.date}"
+            android:layout_margin="10dp"
+            >
+            <TextView
+                android:id="@+id/date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:padding="5dp"
+                app:dateText="@{itemMatch.date}"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif-light"
+                android:textSize="13sp"
+
+                />
+            <TextView
+                android:id="@+id/home_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date_tv"
+                android:text="@{itemMatch.home.team}"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                />
+            <TextView
+                android:id="@+id/home_team_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/home_team"
+                app:layout_constraintBottom_toBottomOf="@id/home_team"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_marginEnd="5dp"
+                />
+            <TextView
+                android:id="@+id/away_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/home_team"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="@{itemMatch.away.team}"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_marginStart="5dp"
+
+                />
+            <TextView
+                android:id="@+id/away_team_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/away_team"
+                app:layout_constraintBottom_toBottomOf="@id/away_team"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_marginEnd="5dp"
+                />
+            <TextView
+                android:id="@+id/tag_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/away_team"
+                android:text="@{itemMatch.tag}"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif-light"
+                android:textSize="13sp"
+                android:alpha="0.8"
+                android:padding="5dp"
+                android:layout_marginTop="10dp"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/result"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="10dp"
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+            app:tabIndicatorColor="@color/teal_200"
+            app:tabIndicatorHeight="2dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/teal_200"
+            app:tabTextColor="@android:color/white"
+            app:tabBackground="@color/blue"
             />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/match_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/tab"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
