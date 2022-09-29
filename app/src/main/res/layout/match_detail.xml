@@ -118,8 +118,15 @@
             app:layout_constraintTop_toBottomOf="@id/result"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="10dp"
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+            app:tabIndicatorColor="@color/teal_200"
+            app:tabIndicatorHeight="2dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/teal_200"
+            app:tabTextColor="@android:color/white"
+            app:tabBackground="@color/blue"
+            />
 
-        />
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/match_pager"
             android:layout_width="match_parent"

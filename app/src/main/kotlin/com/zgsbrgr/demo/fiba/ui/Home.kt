@@ -35,6 +35,7 @@ class Home : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         viewBinding = HomeBinding.inflate(inflater, container, false)
         viewBinding.homeRecycler.apply {
             layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)

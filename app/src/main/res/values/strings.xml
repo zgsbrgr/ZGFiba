@@ -7,10 +7,12 @@
     <string name="all">View all</string>
     <string name="section_pl">Best of EuroBasket|2022</string>
     <string name="date_pl">Full Time | %s</string>
-    <string name="match_label_pl">%s - %s</string>
 
-    <string name="game_tab1">This Game</string>
-    <string name="game_tab2">Live Games</string>
-    <string name="game_tab3">Other Videos</string>
+    <string-array name="game_tabs">
+        <item>This Game</item>
+        <item>Live Games</item>
+        <item>Other Videos</item>
+    </string-array>
+
 
 </resources>

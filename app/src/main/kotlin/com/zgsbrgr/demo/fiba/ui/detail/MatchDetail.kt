@@ -1,3 +1,4 @@
+@file:Suppress("MagicNumber")
 package com.zgsbrgr.demo.fiba.ui.detail
 
 import android.graphics.Typeface
@@ -6,7 +7,6 @@ import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -48,7 +48,6 @@ class MatchDetail : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         viewBinding.lifecycleOwner = this.viewLifecycleOwner
 
         viewBinding.preview.apply {
@@ -63,10 +62,9 @@ class MatchDetail : Fragment() {
 
         TabLayoutMediator(
             viewBinding.tab,
-            viewBinding.matchPager) { tab, position ->
-            tab.view.background = ContextCompat.getDrawable(tab.view.context, R.color.blue)
-            tab.text = "Game ${position+1}"
-
+            viewBinding.matchPager
+        ) { tab, position ->
+            tab.text = resources.getStringArray(R.array.game_tabs)[position]
         }.attach()
 
         viewLifecycleOwner.lifecycleScope.launch {

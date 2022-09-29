@@ -34,7 +34,6 @@ class DetailActivity : AppCompatActivity() {
             topLevel
         )
 
-
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
