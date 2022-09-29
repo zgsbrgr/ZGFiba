@@ -16,6 +16,10 @@
         <action
             android:id="@+id/xml"
             app:destination="@id/detail_nav.xml" />
+        <action
+            android:id="@+id/xml2"
+            app:destination="@id/matches_nav.xml" />
     </fragment>
     <include app:graph="@navigation/detail_nav" />
+    <include app:graph="@navigation/matches_nav" />
 </navigation>

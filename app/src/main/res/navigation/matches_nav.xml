@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/matches_nav.xml"
+    app:startDestination="@id/matches">
+
+    <fragment
+        android:id="@+id/matches"
+        android:name="com.zgsbrgr.demo.fiba.ui.matches.Matches"
+        android:label="{label}"
+        tools:layout="@layout/activity_matches"
+        >
+        <argument
+            android:name="label"
+            app:argType="string" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
+</navigation>

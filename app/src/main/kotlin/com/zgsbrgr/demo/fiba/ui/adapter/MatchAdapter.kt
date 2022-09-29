@@ -17,6 +17,7 @@ import com.bumptech.glide.request.target.Target
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.ItemMatchBinding
 import com.zgsbrgr.demo.fiba.domain.Match
+import java.util.UUID
 
 class MatchAdapter(
     private val clickListener: MatchItemClickListener
@@ -36,7 +37,7 @@ class MatchAdapter(
 
         fun bind(item: Match, clickListener: MatchItemClickListener) {
             binding.itemMatch = item
-            binding.preview.transitionName = item.thumb
+            binding.preview.transitionName = UUID.randomUUID().toString()
             binding.root.setOnClickListener {
                 clickListener.onClick(item, binding.preview)
             }
