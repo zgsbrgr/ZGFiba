@@ -3,12 +3,12 @@ package com.zgsbrgr.demo.fiba
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.onNavDestinationSelected
-import androidx.navigation.ui.setupActionBarWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,9 +19,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContentView(R.layout.activity_main)
 
-        supportActionBar?.hide()
         val topLevelDestinations = setOf(
             R.id.home
         )
@@ -34,11 +36,11 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             topLevelDestinations
         )
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (topLevelDestinations.contains(destination.id)) supportActionBar?.hide() else supportActionBar?.show()
-        }
+//        navController.addOnDestinationChangedListener { _, destination, _ ->
+//            if (topLevelDestinations.contains(destination.id)) supportActionBar?.hide() else supportActionBar?.show()
+//        }
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        // setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -49,5 +51,9 @@ class MainActivity : AppCompatActivity() {
         return item.onNavDestinationSelected(
             navController
         ) || super.onOptionsItemSelected(item)
+    }
+
+    companion object {
+        const val TAG = "Main"
     }
 }
