@@ -25,7 +25,7 @@ class GameInfoViewModel(
     val uiState: StateFlow<EventUIState> = _uiState.asStateFlow()
 
     init {
-        if(page == 0) {
+        if (page == 0) {
             val infoResult = gameInfoRepository.fetchGameInfo(matchId).asResult()
             infoResult.onEach { result ->
 
@@ -44,7 +44,6 @@ class GameInfoViewModel(
                 }
             }.launchIn(viewModelScope)
         }
-
     }
 
     @Suppress("UNCHECKED_CAST")
