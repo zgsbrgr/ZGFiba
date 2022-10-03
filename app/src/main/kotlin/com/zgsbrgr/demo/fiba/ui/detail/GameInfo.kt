@@ -52,7 +52,8 @@ class GameInfo : Fragment() {
 
         val viewModelFactory = GameInfoViewModel.GameInfoViewModelFactory(
             gameInfoRepository,
-            arguments?.getString(ARG_MATCH_ID)
+            arguments?.getString(ARG_MATCH_ID),
+            arguments?.getInt(ARG_OBJECT)
         )
         val viewModel = ViewModelProvider(this, viewModelFactory)[GameInfoViewModel::class.java]
 

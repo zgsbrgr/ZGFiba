@@ -16,39 +16,46 @@ import kotlinx.coroutines.flow.update
 import java.lang.IllegalArgumentException
 
 class GameInfoViewModel(
-    private val gameInfoRepository: GameInfoRepository,
-    matchId: String
+    gameInfoRepository: GameInfoRepository,
+    matchId: String,
+    page: Int
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(EventUIState(loading = true))
     val uiState: StateFlow<EventUIState> = _uiState.asStateFlow()
 
     init {
+        if(page == 0) {
+            val infoResult = gameInfoRepository.fetchGameInfo(matchId).asResult()
+            infoResult.onEach { result ->
 
-        val infoResult = gameInfoRepository.fetchGameInfo(matchId).asResult()
-        infoResult.onEach { result ->
-
-            _uiState.update {
-                when (result) {
-                    is Result.Loading -> {
-                        it.copy(loading = true)
-                    }
-                    is Result.Success -> {
-                        it.copy(loading = false, data = result.data)
-                    }
-                    is Result.Error -> {
-                        it.copy(loading = false, error = result.exception?.message)
+                _uiState.update {
+                    when (result) {
+                        is Result.Loading -> {
+                            it.copy(loading = true)
+                        }
+                        is Result.Success -> {
+                            it.copy(loading = false, data = result.data)
+                        }
+                        is Result.Error -> {
+                            it.copy(loading = false, error = result.exception?.message)
+                        }
                     }
                 }
-            }
-        }.launchIn(viewModelScope)
+            }.launchIn(viewModelScope)
+        }
+
     }
 
     @Suppress("UNCHECKED_CAST")
-    class GameInfoViewModelFactory(val repository: GameInfoRepository, val arg: String?) : ViewModelProvider.Factory {
+    class GameInfoViewModelFactory(
+        private val repository: GameInfoRepository,
+        private val arg: String?,
+        private val page: Int?
+    ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(GameInfoViewModel::class.java)) {
-                return GameInfoViewModel(repository, arg!!) as T
+                return GameInfoViewModel(repository, arg!!, page!!) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }
