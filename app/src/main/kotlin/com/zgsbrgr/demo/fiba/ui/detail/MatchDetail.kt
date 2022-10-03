@@ -57,7 +57,7 @@ class MatchDetail : Fragment() {
                 .into(this)
         }
 
-        pagerAdapter = GamePagerAdapter(this)
+        pagerAdapter = GamePagerAdapter(this, args.match.id)
         viewBinding.matchPager.adapter = pagerAdapter
 
         TabLayoutMediator(

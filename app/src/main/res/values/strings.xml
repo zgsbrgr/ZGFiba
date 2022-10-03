@@ -14,5 +14,13 @@
         <item>Other Videos</item>
     </string-array>
 
+    <string name="three_pointer_home">Successful three pointer for the Home team</string>
+    <string name="three_pointer_away">Successful three pointer for the Away team</string>
+    <string name="two_pointer_home">Easy layup for the Home team</string>
+    <string name="two_pointer_away">Easy layup for the Away team</string>
+    <string name="fault_home">Fault against the Home team</string>
+    <string name="fault_away">Fault against the Away team</string>
+    <string name="timeout_home">Time out called Home team</string>
+    <string name="timeout_away">Time out called Away team</string>
 
 </resources>
