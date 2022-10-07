@@ -23,4 +23,6 @@
     <string name="timeout_home">Time out called Home team</string>
     <string name="timeout_away">Time out called Away team</string>
 
+    <string name="menu_settings">Settings</string>
+
 </resources>

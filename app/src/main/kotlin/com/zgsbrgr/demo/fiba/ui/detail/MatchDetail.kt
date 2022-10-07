@@ -1,12 +1,21 @@
-@file:Suppress("MagicNumber")
+@file:Suppress("MagicNumber", "EmptyFunctionBlock")
 package com.zgsbrgr.demo.fiba.ui.detail
 
+import android.animation.Animator
 import android.graphics.Typeface
 import android.os.Bundle
 import android.transition.TransitionInflater
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import android.view.ViewAnimationUtils
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -20,6 +29,8 @@ import com.zgsbrgr.demo.fiba.databinding.MatchDetailBinding
 import com.zgsbrgr.demo.fiba.domain.Match
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.math.hypot
+import kotlin.math.max
 
 @AndroidEntryPoint
 class MatchDetail : Fragment() {
@@ -50,6 +61,9 @@ class MatchDetail : Fragment() {
 
         viewBinding.lifecycleOwner = this.viewLifecycleOwner
 
+        setupMenu()
+        addBackPressCallback()
+
         viewBinding.preview.apply {
             transitionName = args.imageUri!!
             Glide.with(this)
@@ -79,6 +93,53 @@ class MatchDetail : Fragment() {
         }
     }
 
+    /**
+     * inflating fragment related menu in the actionbar
+     */
+    private fun setupMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.menu_details, menu)
+                }
+
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    return if (menuItem.itemId == R.id.action_settings) {
+                        viewBinding.overlapInfo.post {
+                            showOverlap()
+                        }
+                        true
+                    } else
+                        false
+                }
+
+                override fun onPrepareMenu(menu: Menu) {
+                    super.onPrepareMenu(menu)
+                }
+            },
+            viewLifecycleOwner, Lifecycle.State.RESUMED
+        )
+    }
+
+    /**
+     * handling back press in fragment
+     * checking here if the overlay is visible, if so pressing back just hides this view
+     * else delegate the back press handling to the activity
+     */
+    private fun addBackPressCallback() {
+        val onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (isOpened)
+                    showOverlap()
+                else {
+                    isEnabled = false
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
+    }
+
     private fun setPointsForTeams(match: Match) {
         viewBinding.awayTeamPoint.text = match.away.points.toString()
         viewBinding.homeTeamPoint.text = match.home.points.toString()
@@ -100,6 +161,52 @@ class MatchDetail : Fragment() {
             viewBinding.homeTeamPoint.typeface = Typeface.DEFAULT
             viewBinding.homeTeam.alpha = 0.8f
             viewBinding.homeTeamPoint.alpha = 0.8f
+        }
+    }
+
+    /**
+     * show an overlay on the screen with a circular reveal animation
+     */
+    private var isOpened: Boolean = false
+    private fun showOverlap() {
+
+        if (!isOpened) {
+
+            val x = viewBinding.overlapInfo.right
+            val y = viewBinding.overlapInfo.top
+
+            Log.d(TAG, x.toString())
+
+            val startRadius = 0f
+            val endRadius = hypot(viewBinding.content.width.toDouble(), viewBinding.content.height.toDouble()).toFloat()
+
+            val anim = ViewAnimationUtils.createCircularReveal(viewBinding.overlapInfo, x, y, startRadius, endRadius)
+            viewBinding.overlapInfo.visibility = View.VISIBLE
+            anim.start()
+            isOpened = true
+        } else {
+            val x = viewBinding.content.right
+            val y = viewBinding.content.top
+
+            val startRadius = max(viewBinding.content.width, viewBinding.content.height).toFloat()
+            val endRadius = 0f
+
+            val anim = ViewAnimationUtils.createCircularReveal(viewBinding.overlapInfo, x, y, startRadius, endRadius)
+
+            anim.addListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animator: Animator) {
+                    // no - op
+                }
+                override fun onAnimationEnd(animator: Animator) {
+                    viewBinding.overlapInfo.visibility = View.GONE
+                }
+
+                override fun onAnimationCancel(animator: Animator) {}
+                override fun onAnimationRepeat(animator: Animator) {}
+            })
+
+            anim.start()
+            isOpened = false
         }
     }
 
