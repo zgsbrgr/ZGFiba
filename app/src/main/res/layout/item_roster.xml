@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    tools:backround="@color/blue"
+    android:background="@color/blue"
+    >
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/white"
+        />
+
+    <TextView
+        android:id="@+id/home_player_nr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/separator"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="10dp"
+        tools:text="#14"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-black"
+        />
+
+    <TextView
+        android:id="@+id/home_player"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/home_player_nr"
+        app:drawableStartCompat="@drawable/ic_baseline_person_24"
+        tools:background="@color/blue"
+        android:padding="5dp"
+        android:drawablePadding="10dp"
+        tools:text="First name\nLast name"
+        android:textColor="@color/white"
+        android:gravity="start|center_vertical"
+        android:lines="2"
+        android:fontFamily="sans-serif-condensed-medium"
+        />
+
+    <TextView
+        android:id="@+id/away_player_nr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/separator"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="10dp"
+        tools:text="#13"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-black"
+        />
+
+    <TextView
+        android:id="@+id/away_player"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toEndOf="@id/away_player_nr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:drawableEndCompat="@drawable/ic_outline_person_24"
+        tools:background="@color/blue"
+        android:padding="5dp"
+        android:drawablePadding="10dp"
+        tools:text="First name\nLast name"
+        android:textColor="@color/white"
+        android:gravity="end|center_vertical"
+        android:lines="2"
+        android:fontFamily="sans-serif-condensed-medium"
+        />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
