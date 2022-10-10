@@ -1,10 +1,10 @@
 package com.zgsbrgr.demo.fiba.di
 
-import com.zgsbrgr.demo.fiba.data.Api
 import com.zgsbrgr.demo.fiba.data.GameInfoRepository
 import com.zgsbrgr.demo.fiba.data.GameInfoRepositoryImpl
 import com.zgsbrgr.demo.fiba.data.HomeRepository
 import com.zgsbrgr.demo.fiba.data.HomeRepositoryImpl
+import com.zgsbrgr.demo.fiba.network.ZGFibaNetworkDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +16,8 @@ import dagger.hilt.android.components.ViewModelComponent
 object RepositoryModule {
 
     @Provides
-    fun provideHomeRepository(api: Api): HomeRepository = HomeRepositoryImpl(api)
+    fun provideHomeRepository(networkDataSource: ZGFibaNetworkDataSource): HomeRepository =
+        HomeRepositoryImpl(networkDataSource)
 }
 
 @Module
