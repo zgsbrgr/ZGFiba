@@ -21,6 +21,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
@@ -74,6 +75,15 @@ class MatchDetail : Fragment() {
         pagerAdapter = GamePagerAdapter(this, args.match.id)
         viewBinding.matchPager.adapter = pagerAdapter
 
+
+        viewBinding.awayTeam.setOnClickListener {
+            findNavController()
+                .navigate(MatchDetailDirections.actionMatchDetailToRoster(args.match.away.id))
+        }
+        viewBinding.homeTeam.setOnClickListener {
+            findNavController()
+                .navigate(MatchDetailDirections.actionMatchDetailToRoster(args.match.home.id))
+        }
         TabLayoutMediator(
             viewBinding.tab,
             viewBinding.matchPager
@@ -88,6 +98,7 @@ class MatchDetail : Fragment() {
                         viewBinding.itemMatch = match
                         setPointsForTeams(match)
                     }
+
                 }
             }
         }

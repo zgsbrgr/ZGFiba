@@ -21,5 +21,18 @@
         <argument
             android:name="label"
             app:argType="string" />
+        <action
+            android:id="@+id/action_matchDetail_to_roster"
+            app:destination="@id/roster" />
+    </fragment>
+    <fragment
+        android:id="@+id/roster"
+        android:name="com.zgsbrgr.demo.fiba.ui.detail.Roster"
+        android:label="Roster"
+        tools:layout="@layout/roster"
+        >
+        <argument
+            android:name="teamId"
+            app:argType="string" />
     </fragment>
 </navigation>
