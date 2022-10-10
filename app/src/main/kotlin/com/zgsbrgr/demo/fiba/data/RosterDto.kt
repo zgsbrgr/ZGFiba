@@ -1,5 +1,6 @@
 package com.zgsbrgr.demo.fiba.data
 
+import com.zgsbrgr.demo.fiba.domain.Player
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -29,3 +30,27 @@ data class RosterDto(
     @SerialName("Pts__1") val pts1: Double,
     @SerialName("Eff") val eff: Double
 )
+
+fun RosterDto.toRoster(): Player =
+    Player(
+        player = this.player,
+        playedPosition = this.pos,
+        height = this.height,
+        age = this.age,
+        pointsAvg = this.pts,
+        reboundsAvg = this.reb,
+        assistsAvg = this.ast,
+        gamesPlayed = this.gp,
+        winLose = this.winLose,
+        minutesPlayed = this.min,
+        twoPointsPercentage = this.twoPercent,
+        threePointsPercentage = this.threePercent,
+        fieldGoalsPercentage = this.fieldGoalPercent,
+        freeThrowPercentage = this.freeThrowPercent,
+        offensiveRebound = this.offReb,
+        steals = this.steal,
+        turnOvers = this.to,
+        blocks = this.block,
+        fouls = this.fo,
+        efficiency = this.eff
+    )
