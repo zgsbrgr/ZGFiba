@@ -15,6 +15,7 @@ data class MatchDto(
 
 @Serializable
 data class TeamDto(
+    val id: String,
     val team: String,
     val points: Int,
     val winner: Boolean
@@ -29,6 +30,7 @@ fun MatchDto.toDomain(): Match = Match(
 )
 
 fun TeamDto.toDomain(): Team = Team(
+    id = this.id,
     team = this.team,
     points = this.points,
     winner = this.winner
