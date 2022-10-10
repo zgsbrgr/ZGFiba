@@ -10,14 +10,18 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.components.ViewModelComponent
+import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 @InstallIn(ViewModelComponent::class)
 object RepositoryModule {
 
     @Provides
-    fun provideHomeRepository(networkDataSource: ZGFibaNetworkDataSource): HomeRepository =
-        HomeRepositoryImpl(networkDataSource)
+    fun provideHomeRepository(
+        networkDataSource: ZGFibaNetworkDataSource,
+        @Dispatcher(ZGFibaDispatchers.IO) ioDispatcher: CoroutineDispatcher,
+    ): HomeRepository =
+        HomeRepositoryImpl(networkDataSource, ioDispatcher)
 }
 
 @Module

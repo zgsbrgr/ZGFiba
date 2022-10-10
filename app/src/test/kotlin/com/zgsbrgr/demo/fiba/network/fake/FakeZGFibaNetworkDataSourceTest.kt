@@ -31,7 +31,6 @@ class FakeZGFibaNetworkDataSourceTest {
         )
     }
 
-
     @Test
     fun testDeserializationOfRosters() = runTest(testDispatcher) {
         Assert.assertEquals(
