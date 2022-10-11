@@ -72,7 +72,7 @@ class MatchDetail : Fragment() {
                 .into(this)
         }
 
-        pagerAdapter = GamePagerAdapter(this, args.match.id)
+        pagerAdapter = GamePagerAdapter(this, args.match)
         viewBinding.matchPager.adapter = pagerAdapter
 
         viewBinding.result.setOnClickListener {
@@ -80,10 +80,8 @@ class MatchDetail : Fragment() {
                 .navigate(
                     MatchDetailDirections
                         .actionMatchDetailToRoster(
-                            homeTeamId = args.match.home.id,
-                            awayTeamId = args.match.away.id,
-                            homeTeamName = args.match.home.team,
-                            awayTeamName = args.match.away.team
+                            homeTeam = args.match.home,
+                            awayTeam = args.match.away
                         )
                 )
         }

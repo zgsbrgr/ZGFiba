@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.zgsbrgr.demo.fiba.data.GameInfoRepository
 import com.zgsbrgr.demo.fiba.databinding.GameInfoBinding
+import com.zgsbrgr.demo.fiba.domain.Match
 import com.zgsbrgr.demo.fiba.domain.MatchEvent
 import com.zgsbrgr.demo.fiba.ui.adapter.MatchEventAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -61,12 +62,9 @@ class GameInfo : Fragment() {
 
         val adapter = MatchEventAdapter()
 
-//        arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
-//            viewBinding.label.text = resources.getStringArray(R.array.game_tabs)[getInt(ARG_OBJECT)]
-//        }
         viewBinding.eventRv.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.uiState.collect {
                     it.data?.let { event ->
                         eventList.add(event)
@@ -84,14 +82,32 @@ class GameInfo : Fragment() {
     }
 }
 
-class GamePagerAdapter(fragment: Fragment, private val matchId: String) : FragmentStateAdapter(fragment) {
+class GamePagerAdapter(fragment: Fragment, private val match: Match) : FragmentStateAdapter(fragment) {
 
     override fun createFragment(position: Int): Fragment {
-        val fragment = GameInfo()
-        fragment.arguments = Bundle().apply {
-            putInt(ARG_OBJECT, position)
-            putString(ARG_MATCH_ID, matchId)
-        }
+
+        val fragment =
+            when (position) {
+                0, 2 -> {
+                    val f = GameInfo()
+                    f.arguments = Bundle().apply {
+                        putInt(ARG_OBJECT, position)
+                        putString(ARG_MATCH_ID, match.id)
+                    }
+                    f
+                }
+                1 -> {
+                    val f = Roster()
+                    f.arguments = Bundle().apply {
+                        putParcelable("homeTeam", match.home)
+                        putParcelable("awayTeam", match.away)
+                    }
+                    f
+                }
+                else -> {
+                    throw NoSuchElementException("")
+                }
+            }
         return fragment
     }
 

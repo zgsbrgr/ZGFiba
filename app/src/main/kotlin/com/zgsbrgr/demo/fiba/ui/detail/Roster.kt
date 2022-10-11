@@ -4,16 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.RosterBinding
+import com.zgsbrgr.demo.fiba.domain.Teams
 import com.zgsbrgr.demo.fiba.ui.adapter.RosterAdapter
+import com.zgsbrgr.demo.fiba.ui.adapter.RosterItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,10 +52,18 @@ class Roster : Fragment() {
 
         viewBinding.lifecycleOwner = this.viewLifecycleOwner
 
-        viewBinding.homeTeam.text = args.homeTeamName
-        viewBinding.awayTeam.text = args.awayTeamName
+        viewBinding.homeTeam.text = args.homeTeam.team
+        viewBinding.awayTeam.text = args.awayTeam.team
 
-        val adapter = RosterAdapter()
+        val adapter = RosterAdapter(
+            RosterItemClickListener { playerPosition, homeOrAwayTeam ->
+                val bundle = bundleOf(
+                    "team" to if (homeOrAwayTeam == Teams.HOME) args.homeTeam else args.awayTeam,
+                    "position" to playerPosition
+                )
+                this.findNavController().navigate(R.id.playerInfo, bundle)
+            }
+        )
         viewBinding.rosterRv.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {

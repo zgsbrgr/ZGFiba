@@ -10,23 +10,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.ItemRosterBinding
 import com.zgsbrgr.demo.fiba.domain.Player
+import com.zgsbrgr.demo.fiba.domain.Teams
 
-class RosterAdapter :
-    ListAdapter<Pair<Player?, Player?>, RosterAdapter.RosterViewHolder>(RosterDiffUtilCallback()) {
+class RosterAdapter(
+    private val clickListener: RosterItemClickListener
+) : ListAdapter<Pair<Player?, Player?>, RosterAdapter.RosterViewHolder>(RosterDiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RosterViewHolder {
         return RosterViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: RosterViewHolder, position: Int) {
-        holder.bind(getItem(position), position)
+        holder.bind(getItem(position), position, clickListener)
     }
 
     class RosterViewHolder private constructor(
         private val binding: ItemRosterBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Pair<Player?, Player?>, position: Int) {
+        fun bind(item: Pair<Player?, Player?>, position: Int, clickListener: RosterItemClickListener) {
             if (position % 2 == 0)
                 binding.root.setBackgroundColor(
                     ResourcesCompat.getColor(binding.root.resources, R.color.blue, null)
@@ -40,12 +42,31 @@ class RosterAdapter :
                 binding.homePlayerNr.text = homePlayer.playedPosition
                 binding.homePlayer.visibility = View.VISIBLE
                 binding.homePlayerNr.visibility = View.VISIBLE
+            } ?: kotlin.run {
+                binding.homePlayer.visibility = View.GONE
+                binding.homePlayerNr.visibility = View.GONE
             }
             item.second?.let { awayPlayer ->
                 binding.awayPlayer.text = awayPlayer.player
                 binding.awayPlayerNr.text = awayPlayer.playedPosition
                 binding.awayPlayer.visibility = View.VISIBLE
                 binding.awayPlayerNr.visibility = View.VISIBLE
+            } ?: kotlin.run {
+                binding.awayPlayer.visibility = View.GONE
+                binding.awayPlayerNr.visibility = View.GONE
+            }
+
+            binding.homePlayer.setOnClickListener {
+                clickListener.onClick(
+                    bindingAdapterPosition,
+                    Teams.HOME
+                )
+            }
+            binding.awayPlayer.setOnClickListener {
+                clickListener.onClick(
+                    bindingAdapterPosition,
+                    Teams.AWAY
+                )
             }
         }
 
@@ -76,4 +97,8 @@ class RosterAdapter :
                 )
         }
     }
+}
+
+class RosterItemClickListener(val clickListener: (itemPosition: Int, homeOrAwayTeam: Teams) -> Unit) {
+    fun onClick(itemPosition: Int, homeOrAwayTeam: Teams) = clickListener(itemPosition, homeOrAwayTeam)
 }

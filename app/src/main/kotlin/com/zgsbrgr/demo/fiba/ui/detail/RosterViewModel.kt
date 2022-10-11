@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zgsbrgr.demo.fiba.data.RosterRepository
 import com.zgsbrgr.demo.fiba.domain.Player
+import com.zgsbrgr.demo.fiba.domain.Team
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -20,11 +21,11 @@ class RosterViewModel @Inject constructor(
 ) : ViewModel() {
 
     val rosterUIState: StateFlow<RosterUiState> = combine(
-        rosterRepository.fetchRosterForTeam(
-            savedStateHandle.get<String>("homeTeamId")!!
+        rosterRepository.fetchRosterForTeamExceptStatistics(
+            savedStateHandle.get<Team>("homeTeam")?.id!!
         ),
-        rosterRepository.fetchRosterForTeam(
-            savedStateHandle.get<String>("awayTeamId")!!
+        rosterRepository.fetchRosterForTeamExceptStatistics(
+            savedStateHandle.get<Team>("awayTeam")?.id!!
         )
     ) { homeRoster, awayRoster ->
 
@@ -60,8 +61,3 @@ sealed interface RosterUiState {
 
     object Empty : RosterUiState
 }
-// data class RosterUIState(
-//    val loading: Boolean = false,
-//    val data: List<Player> = emptyList(),
-//    val error: String? = null
-// )

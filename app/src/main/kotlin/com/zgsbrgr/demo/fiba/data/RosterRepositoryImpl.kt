@@ -22,4 +22,12 @@ class RosterRepositoryImpl @Inject constructor(
             }
         )
     }.flowOn(ioDispatcher)
+
+    override fun fetchRosterForTeamExceptStatistics(teamId: String): Flow<List<Player>> = flow {
+        emit(
+            networkDataSource.getTeamRoster(teamId).map { it.toRoster() }.filter {
+                it.age != null
+            }
+        )
+    }.flowOn(ioDispatcher)
 }

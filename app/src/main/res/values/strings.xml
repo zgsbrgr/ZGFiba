@@ -10,8 +10,8 @@
 
     <string-array name="game_tabs">
         <item>This Game</item>
-        <item>Live Games</item>
-        <item>Other Videos</item>
+        <item>Roster</item>
+        <item>Other</item>
     </string-array>
 
     <string name="three_pointer_home">Successful three pointer for the Home team</string>
