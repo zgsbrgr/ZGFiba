@@ -1,5 +1,6 @@
 package com.zgsbrgr.demo.fiba.di
 
+import com.zgsbrgr.demo.fiba.ZGFibaApp
 import com.zgsbrgr.demo.fiba.network.ZGFibaNetworkDataSource
 import com.zgsbrgr.demo.fiba.network.retrofit.RetrofitZGFibaNetwork
 import dagger.Binds
@@ -15,9 +16,7 @@ import javax.inject.Singleton
 interface NetworkModule {
 
     @Binds
-    fun bindsZGFibaNetwork(
-        zgFibaNetwork: RetrofitZGFibaNetwork
-    ): ZGFibaNetworkDataSource
+    fun bindZGFibaNetwork(retrofitZGFibaNetwork: RetrofitZGFibaNetwork): ZGFibaNetworkDataSource
 
     companion object {
         @Provides
@@ -25,5 +24,9 @@ interface NetworkModule {
         fun providesNetworkJson(): Json = Json {
             ignoreUnknownKeys = true
         }
+
+        @Provides
+        @Singleton
+        fun provideApplication(): ZGFibaApp = ZGFibaApp()
     }
 }
