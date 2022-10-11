@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">ZG Fiba</string>
 
     <string name="top_label">EuroBasket 2022</string>
@@ -31,5 +31,13 @@
     <string name="apg">APG</string>
     <string name="rpg">RPG</string>
     <string name="eff">EFF</string>
+    <string name="gp">GP</string>
+    <string name="wl">W-L</string>
+    <string name="twop">2P%</string>
+    <string name="threep">3P%</string>
+    <string name="fgp">FG%</string>
+    <string name="ftp">FT%</string>
+
+    <string name="player_data" tools:ignore="PluralsCandidate">%1$s m %2$s cm  | - kg\n%3$d years</string>
 
 </resources>

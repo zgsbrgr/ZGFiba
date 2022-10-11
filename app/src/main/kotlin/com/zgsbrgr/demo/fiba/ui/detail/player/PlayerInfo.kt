@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.PlayerPageBinding
+import com.zgsbrgr.demo.fiba.domain.Player
 import com.zgsbrgr.demo.fiba.domain.Team
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -69,6 +70,24 @@ fun formatPlayerNumberAndPosition(textView: TextView, playerPosition: String?) {
 fun formatPlayerStatToSetInTextView(textView: TextView, playerStat: Double?) {
     playerStat?.let { stat ->
         textView.text = stat.toString()
+    }
+}
+
+@BindingAdapter("player")
+fun formatPlayerHeightAndAgeToSetInTextView(textView: TextView, player: Player?) {
+    player?.let { selectedPlayer ->
+        val heightItems = selectedPlayer.height.split("m")
+        textView.text =
+            textView.context.resources.getString(
+                R.string.player_data, heightItems[0], heightItems[1], selectedPlayer.age
+            )
+    }
+}
+
+@BindingAdapter("playedGames")
+fun formatGamesPlayedToSetInTextView(textView: TextView, gamesPlayed: Int?) {
+    gamesPlayed?.let {
+        textView.text = it.toString()
     }
 }
 

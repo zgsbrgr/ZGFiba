@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.25"
+            app:layout_constraintGuide_percent="0.27"
             />
 
         <androidx.constraintlayout.widget.Guideline
@@ -38,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
             android:fontFamily="sans-serif-condensed-medium"
             android:text="@{teamName}"
@@ -45,7 +46,9 @@
             android:textSize="32sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="SLOVENIA" />
+            tools:text="SLOVENIA"
+            android:lines="2"
+            />
 
 
         <ImageView
@@ -150,8 +153,8 @@
             android:layout_width="1dp"
             android:layout_height="0dp"
             android:background="@color/white"
-            app:layout_constraintStart_toEndOf="@id/rpg_value"
-            app:layout_constraintEnd_toStartOf="@id/apg_value"
+            app:layout_constraintStart_toStartOf="@id/guideline_vertical_50"
+            app:layout_constraintEnd_toEndOf="@id/guideline_vertical_50"
             app:layout_constraintTop_toTopOf="@id/rpg"
             app:layout_constraintBottom_toBottomOf="@id/rpg_value"
             android:alpha="0.7"
@@ -252,7 +255,6 @@
             android:gravity="center"
             app:formatPlayerStat="@{player.assistsAvg}"
             />
-
         <TextView
             android:id="@+id/pie_value"
             android:layout_width="wrap_content"
@@ -282,6 +284,262 @@
             android:alpha="0.5"
             />
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/player_value_divider"
+            android:background="@color/white"
+            android:alpha="0.5"
+            />
+
+        <View
+            android:id="@+id/player_info_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/player_value_divider"
+            android:layout_marginTop="150dp"
+            android:alpha="0.5"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline_vertical_50"
+            app:layout_constraintTop_toBottomOf="@id/player_value_divider"
+            app:layout_constraintBottom_toTopOf="@id/player_info_divider"
+            app:player="@{player}"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-medium"
+            android:alpha="0.85"
+            android:gravity="center"
+            android:lineSpacingExtra="10dp"
+            tools:text="2 m 04 | 88 kg\n29 years"
+            />
+
+        <View
+            android:id="@+id/game_stat_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/player_value_divider"
+            app:layout_constraintBottom_toBottomOf="@id/player_info_divider"
+            app:layout_constraintStart_toStartOf="@id/guideline_vertical_50"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:alpha="0.5"
+            />
+
+        <TextView
+            android:id="@+id/gp"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/apg"
+            app:layout_constraintEnd_toEndOf="@id/apg"
+            app:layout_constraintTop_toBottomOf="@id/player_value_divider"
+            app:layout_constraintBottom_toTopOf="@id/game_stat_divider"
+            tools:text="GP"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-medium"
+            android:alpha="0.7"
+            android:text="@string/gp"
+
+            />
+
+        <TextView
+            android:id="@+id/wl"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/apg"
+            app:layout_constraintEnd_toEndOf="@id/apg"
+            app:layout_constraintTop_toBottomOf="@id/game_stat_divider"
+            app:layout_constraintBottom_toTopOf="@id/player_info_divider"
+            tools:text="W-L"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-medium"
+            android:alpha="0.7"
+            android:text="@string/wl"
+            />
+
+        <TextView
+            android:id="@+id/gp_value"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/pie_value"
+            app:layout_constraintTop_toBottomOf="@id/player_value_divider"
+            app:layout_constraintBottom_toTopOf="@id/game_stat_divider"
+            tools:text="7"
+            android:textColor="@color/white"
+            android:textSize="35sp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:alpha="0.9"
+            android:gravity="start"
+            app:playedGames="@{player.gamesPlayed}"
+
+            />
+
+        <TextView
+            android:id="@+id/wl_value"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/pie_value"
+            app:layout_constraintTop_toBottomOf="@id/game_stat_divider"
+            app:layout_constraintBottom_toTopOf="@id/player_info_divider"
+            tools:text="3-7"
+            android:textColor="@color/white"
+            android:textSize="35sp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:alpha="0.9"
+            android:gravity="start"
+            android:text="@{player.winLose}"
+            />
+
+        <View
+            android:id="@+id/guideline_horizontal_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@id/player_info_divider"
+            android:background="@color/white"
+            android:alpha="0.5"
+            />
+
+        <TextView
+            android:id="@+id/p2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_vertical_50"
+            app:layout_constraintTop_toBottomOf="@id/player_info_divider"
+            tools:text="@string/twop"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:fontFamily="sans-serif-medium"
+            android:alpha="0.7"
+            android:layout_marginTop="15dp"
+            android:text="@string/twop"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_vertical_50"
+            app:layout_constraintTop_toBottomOf="@id/player_info_divider"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_horizontal_bottom"
+            tools:text="24.8 %"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:gravity="center"
+            android:text="@{player.twoPointsPercentage}"
+            android:alpha="0.9"
+            />
+
+        <TextView
+            android:id="@+id/p3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/guideline_vertical_50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/player_info_divider"
+            tools:text="@string/threep"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:fontFamily="sans-serif-medium"
+            android:alpha="0.7"
+            android:layout_marginTop="15dp"
+            android:text="@string/threep"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/guideline_vertical_50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/player_info_divider"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_horizontal_bottom"
+            tools:text="24.8 %"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:gravity="center"
+            android:text="@{player.threePointsPercentage}"
+            android:alpha="0.9"
+            />
+
+        <TextView
+            android:id="@+id/fg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_vertical_50"
+            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_bottom"
+            tools:text="@string/fgp"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:fontFamily="sans-serif-medium"
+            android:alpha="0.7"
+            android:layout_marginTop="15dp"
+            android:text="@string/fgp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_vertical_50"
+            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="24.8 %"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:gravity="center"
+            android:text="@{player.fieldGoalsPercentage}"
+            android:alpha="0.9"
+            />
+
+        <TextView
+            android:id="@+id/ft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/guideline_vertical_50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_bottom"
+            tools:text="@string/ftp"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:fontFamily="sans-serif-medium"
+            android:alpha="0.7"
+            android:layout_marginTop="15dp"
+            android:text="@string/ftp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/guideline_vertical_50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="24.8 %"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:gravity="center"
+            android:text="@{player.freeThrowPercentage}"
+            android:alpha="0.9"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
