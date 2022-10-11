@@ -2,6 +2,7 @@ package com.zgsbrgr.demo.fiba.ui.detail
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -34,7 +35,23 @@ class DetailActivity : AppCompatActivity() {
             topLevel
         )
 
+        handleBackPress()
+
         setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+
+    private fun handleBackPress() {
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (navController.currentDestination?.id == navController.graph.startDestinationId)
+                        finish()
+                    else
+                        onSupportNavigateUp()
+                }
+            }
+        )
     }
 
     override fun onSupportNavigateUp(): Boolean {
