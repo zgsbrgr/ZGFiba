@@ -20,6 +20,9 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Run local tests
+          run: ./gradlew testDebug --stacktrace
+
       - name: Assemble and Deploy
         run: |
           export RELEASE_NOTE=$(git log -1 --pretty=format:"Time: %ad%nHash: %h%nAuthor: %an <%ae>%nMessage: %s")
