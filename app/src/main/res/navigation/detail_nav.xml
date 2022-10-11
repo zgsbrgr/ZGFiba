@@ -32,7 +32,15 @@
         tools:layout="@layout/roster"
         >
         <argument
-            android:name="teamId"
+            android:name="homeTeamId"
+            app:argType="string" />
+        <argument android:name="awayTeamId"
+            app:argType="string" />
+        <argument
+            android:name="homeTeamName"
+            app:argType="string" />
+        <argument
+            android:name="awayTeamName"
             app:argType="string" />
     </fragment>
 </navigation>

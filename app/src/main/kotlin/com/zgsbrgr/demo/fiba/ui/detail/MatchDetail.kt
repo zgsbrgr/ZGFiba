@@ -75,15 +75,19 @@ class MatchDetail : Fragment() {
         pagerAdapter = GamePagerAdapter(this, args.match.id)
         viewBinding.matchPager.adapter = pagerAdapter
 
+        viewBinding.result.setOnClickListener {
+            findNavController()
+                .navigate(
+                    MatchDetailDirections
+                        .actionMatchDetailToRoster(
+                            homeTeamId = args.match.home.id,
+                            awayTeamId = args.match.away.id,
+                            homeTeamName = args.match.home.team,
+                            awayTeamName = args.match.away.team
+                        )
+                )
+        }
 
-        viewBinding.awayTeam.setOnClickListener {
-            findNavController()
-                .navigate(MatchDetailDirections.actionMatchDetailToRoster(args.match.away.id))
-        }
-        viewBinding.homeTeam.setOnClickListener {
-            findNavController()
-                .navigate(MatchDetailDirections.actionMatchDetailToRoster(args.match.home.id))
-        }
         TabLayoutMediator(
             viewBinding.tab,
             viewBinding.matchPager
@@ -98,7 +102,6 @@ class MatchDetail : Fragment() {
                         viewBinding.itemMatch = match
                         setPointsForTeams(match)
                     }
-
                 }
             }
         }
