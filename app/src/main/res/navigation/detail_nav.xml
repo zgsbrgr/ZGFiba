@@ -32,15 +32,22 @@
         tools:layout="@layout/roster"
         >
         <argument
-            android:name="homeTeamId"
-            app:argType="string" />
-        <argument android:name="awayTeamId"
-            app:argType="string" />
+            android:name="homeTeam"
+            app:argType="com.zgsbrgr.demo.fiba.domain.Team" />
+        <argument android:name="awayTeam"
+            app:argType="com.zgsbrgr.demo.fiba.domain.Team" />
+    </fragment>
+    <fragment
+        android:id="@+id/playerInfo"
+        android:name="com.zgsbrgr.demo.fiba.ui.detail.player.PlayerInfo"
+        android:label=""
+        tools:layout="@layout/player_page"
+        >
         <argument
-            android:name="homeTeamName"
-            app:argType="string" />
+            android:name="team"
+            app:argType="com.zgsbrgr.demo.fiba.domain.Team" />
         <argument
-            android:name="awayTeamName"
-            app:argType="string" />
+            android:name="position"
+            app:argType="integer" />
     </fragment>
 </navigation>
