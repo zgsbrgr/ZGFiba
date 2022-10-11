@@ -21,7 +21,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run local tests
-        run: ./gradlew testDebug --stacktrace
+        run: ./gradlew test
 
       - name: Assemble and Deploy
         run: |
