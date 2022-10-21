@@ -20,6 +20,16 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
+    - name: Generate cache key
+      run: ./scripts/checksum.sh checksum.txt
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches/modules-*
+            ~/.gradle/caches/jars-*
+            ~/.gradle/caches/build-cache-*
+          key: gradle-${{ hashFiles('checksum.txt') }}
+
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
