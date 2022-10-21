@@ -6,7 +6,6 @@
     android:layout_width="70dp"
     android:layout_height="50dp"
     android:gravity="center_vertical|end"
-    android:background="@color/blue"
     android:textColor="@color/white"
     android:textAllCaps="true"
     tools:text="min"

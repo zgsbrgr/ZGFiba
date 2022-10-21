@@ -1,26 +1,26 @@
+@file:Suppress("MagicNumber")
 package com.zgsbrgr.demo.fiba.ui.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zgsbrgr.demo.fiba.data.RosterRepository
-import com.zgsbrgr.demo.fiba.domain.Player
 import com.zgsbrgr.demo.fiba.domain.Team
 import com.zgsbrgr.demo.fiba.domain.Teams
 import com.zgsbrgr.demo.fiba.domain.toStatDataList
 import com.zgsbrgr.demo.fiba.ui.adapter.StatData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
 @HiltViewModel
 class TeamStatViewModel @Inject constructor(
     rosterRepository: RosterRepository,
     savedStateHandle: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
 
     private val _homeTeamStatData = mutableListOf<StatData>()
     private val homeTeamStatData: List<StatData> = _homeTeamStatData
@@ -36,7 +36,7 @@ class TeamStatViewModel @Inject constructor(
             rosterRepository.fetchRosterForTeam(
                 savedStateHandle.get<Team>("awayTeam")?.id!!
             )
-        ) { homeTeam, awayTeam->
+        ) { homeTeam, awayTeam ->
             _homeTeamStatData.addAll(homeTeam.toStatDataList())
             _awayTeamStatData.addAll(awayTeam.toStatDataList())
             TeamStatUiState.Players(
@@ -51,17 +51,13 @@ class TeamStatViewModel @Inject constructor(
 
     fun changeTeamStatData(teams: Teams): List<StatData> {
 
-        return if(teams == Teams.HOME) {
-               homeTeamStatData
-        }
-        else {
+        return if (teams == Teams.HOME) {
+            homeTeamStatData
+        } else {
             awayTeamStatData
         }
     }
-
-
 }
-
 
 sealed interface TeamStatUiState {
     object Loading : TeamStatUiState

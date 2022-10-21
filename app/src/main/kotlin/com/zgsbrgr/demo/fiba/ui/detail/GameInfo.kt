@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -30,7 +29,6 @@ const val ARG_MATCH_ID = "arg_match_id"
 class GameInfo : Fragment() {
 
     private lateinit var viewBinding: GameInfoBinding
-
 
     @Inject
     lateinit var gameInfoRepository: GameInfoRepository
@@ -80,11 +78,7 @@ class GameInfo : Fragment() {
                 }
             }
         }
-
-
     }
-
-
 }
 
 class GamePagerAdapter(fragment: Fragment, private val match: Match) : FragmentStateAdapter(fragment) {

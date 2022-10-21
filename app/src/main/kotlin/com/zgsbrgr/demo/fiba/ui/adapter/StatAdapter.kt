@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.zgsbrgr.demo.fiba.databinding.StatHeaderBinding
 
-class StatAdapter: ListAdapter<StatData, StatAdapter.StatViewHolder>(StatAdapterItemDiffUtil()) {
-
+class StatAdapter : ListAdapter<StatData, StatAdapter.StatViewHolder>(StatAdapterItemDiffUtil()) {
 
     override fun onBindViewHolder(holder: StatViewHolder, position: Int) {
         holder.from(getItem(position))
@@ -19,8 +18,9 @@ class StatAdapter: ListAdapter<StatData, StatAdapter.StatViewHolder>(StatAdapter
         return StatViewHolder.from(parent)
     }
 
-
-    class StatViewHolder private constructor(private val binding: StatHeaderBinding): RecyclerView.ViewHolder(binding.root) {
+    class StatViewHolder private constructor(
+        private val binding: StatHeaderBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun from(item: StatData) {
             binding.headerText.text = item.label
@@ -41,10 +41,9 @@ class StatAdapter: ListAdapter<StatData, StatAdapter.StatViewHolder>(StatAdapter
                 return StatViewHolder(binding)
             }
         }
-
     }
 
-    class StatAdapterItemDiffUtil: DiffUtil.ItemCallback<StatData>() {
+    class StatAdapterItemDiffUtil : DiffUtil.ItemCallback<StatData>() {
         override fun areContentsTheSame(oldItem: StatData, newItem: StatData): Boolean {
             return oldItem == newItem
         }
@@ -53,7 +52,6 @@ class StatAdapter: ListAdapter<StatData, StatAdapter.StatViewHolder>(StatAdapter
             return oldItem.label == newItem.label
         }
     }
-
 }
 
 data class StatData(

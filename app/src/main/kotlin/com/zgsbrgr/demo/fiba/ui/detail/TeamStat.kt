@@ -16,22 +16,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.TeamStatBinding
 import com.zgsbrgr.demo.fiba.domain.Teams
-import com.zgsbrgr.demo.fiba.domain.toStatDataList
 import com.zgsbrgr.demo.fiba.ui.adapter.StatAdapter
 import com.zgsbrgr.demo.fiba.ui.adapter.StatData
-import com.zgsbrgr.demo.fiba.ui.adapter.StatDataAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.lang.Thread.State
 
 @AndroidEntryPoint
-class TeamStat: Fragment() {
+class TeamStat : Fragment() {
 
     private lateinit var viewBinding: TeamStatBinding
     private val viewModel by viewModels<TeamStatViewModel>()
 
     private val args by navArgs<TeamStatArgs>()
-
 
     private val statDataList = mutableListOf<StatData>()
 
@@ -57,20 +54,19 @@ class TeamStat: Fragment() {
 
         val adapter = StatAdapter()
         val headerList = resources.getStringArray(R.array.player_stat_header)
-        val headerItem: StatData =  StatData(
+        val headerItem: StatData = StatData(
             label = headerList[0],
-            items = headerList.toList().subList(1,headerList.size-1)
+            items = headerList.toList().subList(1, headerList.size - 1)
         )
         viewBinding.teamStatRv.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
-                    when(it) {
+                    when (it) {
                         is TeamStatUiState.Loading -> {}
                         is TeamStatUiState.Empty -> {}
                         is TeamStatUiState.Players -> {
                             viewBinding.homeTeam.isChecked = true
-
                         }
                     }
                 }
@@ -79,14 +75,12 @@ class TeamStat: Fragment() {
 
         viewBinding.homeTeam.setOnCheckedChangeListener { _, b ->
             statDataList.clear()
-            if(b) {
+            if (b) {
                 statDataList.add(0, headerItem)
                 statDataList.addAll(viewModel.changeTeamStatData(Teams.HOME))
-            }
-            else {
+            } else {
                 statDataList.add(0, headerItem)
                 statDataList.addAll(viewModel.changeTeamStatData(Teams.AWAY))
-
             }
             adapter.submitList(statDataList)
             adapter.notifyItemRangeChanged(1, adapter.itemCount)
@@ -95,7 +89,6 @@ class TeamStat: Fragment() {
             handler.post {
                 viewBinding.teamStatRv.scrollToPosition(0)
             }
-
         }
     }
 

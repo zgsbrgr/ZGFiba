@@ -34,7 +34,6 @@ class Roster : Fragment() {
 
     private val args by navArgs<RosterArgs>()
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -94,9 +93,9 @@ class Roster : Fragment() {
         dialogBinding.player = player
         dialogBinding.navigateToStatIcon.setOnClickListener {
             val bundle = bundleOf(
-                    "team" to if (homeOrAwayTeam == Teams.HOME) args.homeTeam else args.awayTeam,
-                    "position" to playerPosition
-                )
+                "team" to if (homeOrAwayTeam == Teams.HOME) args.homeTeam else args.awayTeam,
+                "position" to playerPosition
+            )
             this.findNavController().navigate(R.id.playerInfo, bundle)
             dialog.dismiss()
         }

@@ -101,6 +101,9 @@ class RosterAdapter(
     }
 }
 
-class RosterItemClickListener(val clickListener: (itemPosition: Int, homeOrAwayTeam: Teams, player: Player) -> Unit) {
-    fun onClick(itemPosition: Int, homeOrAwayTeam: Teams, player: Player) = clickListener(itemPosition, homeOrAwayTeam, player)
+class RosterItemClickListener(
+    val clickListener: (itemPosition: Int, homeOrAwayTeam: Teams, player: Player) -> Unit
+) {
+    fun onClick(itemPosition: Int, homeOrAwayTeam: Teams, player: Player) =
+        clickListener(itemPosition, homeOrAwayTeam, player)
 }

@@ -30,7 +30,7 @@ data class Player(
 fun Player.toStringList() = listOf<String>(
     playedPosition,
     height,
-    age?.toString()?:"",
+    age?.toString() ?: "",
     pointsAvg.toString(),
     reboundsAvg.toString(),
     assistsAvg.toString(),
@@ -48,7 +48,6 @@ fun Player.toStringList() = listOf<String>(
     fouls.toString(),
     efficiency.toString()
 )
-
 
 fun Player.toStatData() =
     StatData(
