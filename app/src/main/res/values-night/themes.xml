@@ -12,7 +12,7 @@
         <!-- Status bar color. -->
 <!--        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>-->
         <item name="android:statusBarColor">@android:color/transparent</item>
-
+        <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
     </style>
     <style name="ZGFibaNoAction" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>

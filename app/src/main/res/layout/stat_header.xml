@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    tools:background="@color/blue_dark"
+    >
+
+    <TextView
+        android:id="@+id/header_text"
+        android:layout_width="160dp"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:background="@color/blue_dark"
+        tools:text="Starters"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:gravity="start|center_vertical"
+        android:fontFamily="sans-serif-medium"
+        />
+    <View
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toEndOf="@id/header_text"
+        android:background="@drawable/stat_divider"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/stat_rv"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toEndOf="@id/header_text"
+        android:layout_marginStart="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

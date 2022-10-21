@@ -1,5 +1,6 @@
 package com.zgsbrgr.demo.fiba.domain
 
+import com.zgsbrgr.demo.fiba.ui.adapter.StatData
 import java.util.UUID
 
 data class Player(
@@ -25,3 +26,38 @@ data class Player(
     val fouls: Double,
     val efficiency: Double
 )
+
+fun Player.toStringList() = listOf<String>(
+    playedPosition,
+    height,
+    age?.toString()?:"",
+    pointsAvg.toString(),
+    reboundsAvg.toString(),
+    assistsAvg.toString(),
+    gamesPlayed.toString(),
+    winLose,
+    minutesPlayed.toString(),
+    twoPointsPercentage,
+    threePointsPercentage,
+    fieldGoalsPercentage,
+    freeThrowPercentage,
+    offensiveRebound.toString(),
+    steals.toString(),
+    turnOvers.toString(),
+    blocks.toString(),
+    fouls.toString(),
+    efficiency.toString()
+)
+
+
+fun Player.toStatData() =
+    StatData(
+        label = this.player,
+        items = this.toStringList()
+    )
+
+fun List<Player>.toStatDataList(): List<StatData> {
+    return map { item ->
+        item.toStatData()
+    }
+}

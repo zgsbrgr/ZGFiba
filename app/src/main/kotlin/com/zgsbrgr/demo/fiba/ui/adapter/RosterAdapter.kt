@@ -59,13 +59,15 @@ class RosterAdapter(
             binding.homePlayer.setOnClickListener {
                 clickListener.onClick(
                     bindingAdapterPosition,
-                    Teams.HOME
+                    Teams.HOME,
+                    item.first!!
                 )
             }
             binding.awayPlayer.setOnClickListener {
                 clickListener.onClick(
                     bindingAdapterPosition,
-                    Teams.AWAY
+                    Teams.AWAY,
+                    item.second!!
                 )
             }
         }
@@ -99,6 +101,6 @@ class RosterAdapter(
     }
 }
 
-class RosterItemClickListener(val clickListener: (itemPosition: Int, homeOrAwayTeam: Teams) -> Unit) {
-    fun onClick(itemPosition: Int, homeOrAwayTeam: Teams) = clickListener(itemPosition, homeOrAwayTeam)
+class RosterItemClickListener(val clickListener: (itemPosition: Int, homeOrAwayTeam: Teams, player: Player) -> Unit) {
+    fun onClick(itemPosition: Int, homeOrAwayTeam: Teams, player: Player) = clickListener(itemPosition, homeOrAwayTeam, player)
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -30,7 +31,6 @@ class GameInfo : Fragment() {
 
     private lateinit var viewBinding: GameInfoBinding
 
-    // private val viewModel by viewModels<GameInfoViewModel>()
 
     @Inject
     lateinit var gameInfoRepository: GameInfoRepository
@@ -70,6 +70,7 @@ class GameInfo : Fragment() {
                         eventList.add(event)
                         if (adapter.currentList.isEmpty())
                             adapter.submitList(eventList)
+
                         adapter.notifyItemInserted(eventList.size)
                         viewBinding.eventRv.scrollToPosition(eventList.size - 1)
                     }
@@ -79,7 +80,11 @@ class GameInfo : Fragment() {
                 }
             }
         }
+
+
     }
+
+
 }
 
 class GamePagerAdapter(fragment: Fragment, private val match: Match) : FragmentStateAdapter(fragment) {
@@ -88,7 +93,7 @@ class GamePagerAdapter(fragment: Fragment, private val match: Match) : FragmentS
 
         val fragment =
             when (position) {
-                0, 2 -> {
+                1 -> {
                     val f = GameInfo()
                     f.arguments = Bundle().apply {
                         putInt(ARG_OBJECT, position)
@@ -96,8 +101,16 @@ class GamePagerAdapter(fragment: Fragment, private val match: Match) : FragmentS
                     }
                     f
                 }
-                1 -> {
+                0 -> {
                     val f = Roster()
+                    f.arguments = Bundle().apply {
+                        putParcelable("homeTeam", match.home)
+                        putParcelable("awayTeam", match.away)
+                    }
+                    f
+                }
+                2 -> {
+                    val f = TeamStat()
                     f.arguments = Bundle().apply {
                         putParcelable("homeTeam", match.home)
                         putParcelable("awayTeam", match.away)

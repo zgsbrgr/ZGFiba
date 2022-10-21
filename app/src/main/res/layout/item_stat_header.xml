@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/stat_header_text"
+    android:layout_width="100dp"
+    android:layout_height="50dp"
+    android:gravity="center_vertical|end"
+    android:background="@color/blue_dark"
+    android:textColor="@color/white"
+    android:textAllCaps="true"
+    tools:text="min"
+    android:paddingEnd="5dp"
+    android:paddingStart="5dp"
+    android:fontFamily="sans-serif-condensed-medium"
+    android:textSize="15sp"
+    />
+

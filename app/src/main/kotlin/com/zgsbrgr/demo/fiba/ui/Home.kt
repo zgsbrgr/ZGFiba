@@ -40,7 +40,7 @@ class Home : Fragment() {
         viewBinding = HomeBinding.inflate(inflater, container, false)
         viewBinding.homeRecycler.apply {
             layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
-            addItemDecoration(SpaceItemDecoration(R.dimen.space, true))
+            addItemDecoration(SpaceItemDecoration(R.dimen.space, beforeFirst = false, afterLast = true))
         }
         return viewBinding.root
     }

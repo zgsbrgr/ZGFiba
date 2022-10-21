@@ -9,9 +9,9 @@
     <string name="date_pl">Full Time | %s</string>
 
     <string-array name="game_tabs">
-        <item>This Game</item>
         <item>Roster</item>
-        <item>Other</item>
+        <item>Summary</item>
+        <item>Plays</item>
     </string-array>
 
     <string name="three_pointer_home">Successful three pointer for the Home team</string>
@@ -39,5 +39,25 @@
     <string name="ftp">FT%</string>
 
     <string name="player_data" tools:ignore="PluralsCandidate">%1$s m %2$s cm  | - kg\n%3$d years</string>
+
+    <string-array name="player_stat_header">
+        <item>Players</item>
+        <item>pts</item>
+        <item>reb</item>
+        <item>ast</item>
+        <item>gp</item>
+        <item>w-l</item>
+        <item>min</item>
+        <item>2p%</item>
+        <item>3p%</item>
+        <item>fg%</item>
+        <item>ft%</item>
+        <item>or</item>
+        <item>st</item>
+        <item>to</item>
+        <item>bl</item>
+        <item>pf</item>
+        <item>eff</item>
+    </string-array>
 
 </resources>

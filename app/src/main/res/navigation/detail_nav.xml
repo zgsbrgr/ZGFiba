@@ -40,7 +40,7 @@
     <fragment
         android:id="@+id/playerInfo"
         android:name="com.zgsbrgr.demo.fiba.ui.detail.player.PlayerInfo"
-        android:label=""
+        android:label="Player Profile"
         tools:layout="@layout/player_page"
         >
         <argument
@@ -49,5 +49,18 @@
         <argument
             android:name="position"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/teamStat"
+        android:name="com.zgsbrgr.demo.fiba.ui.detail.TeamStat"
+        android:label="TeamStat"
+        tools:layout="@layout/team_stat"
+        >
+        <argument
+            android:name="homeTeam"
+            app:argType="com.zgsbrgr.demo.fiba.domain.Team" />
+        <argument
+            android:name="awayTeam"
+            app:argType="com.zgsbrgr.demo.fiba.domain.Team" />
     </fragment>
 </navigation>

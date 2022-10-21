@@ -25,7 +25,8 @@ class GameInfoViewModel(
     val uiState: StateFlow<EventUIState> = _uiState.asStateFlow()
 
     init {
-        if (page == 0) {
+        // limit only to summary tab
+        if (page == 1) {
             val infoResult = gameInfoRepository.fetchGameInfo(matchId).asResult()
             infoResult.onEach { result ->
 

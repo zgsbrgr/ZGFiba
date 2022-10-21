@@ -41,7 +41,8 @@ class MatchDetail : Fragment() {
 
     private val args by navArgs<MatchDetailArgs>()
 
-    private val viewModel by viewModels<MatchDetailViewModel>()
+    private val viewModel by viewModels<MatchDetailViewModel>(
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,

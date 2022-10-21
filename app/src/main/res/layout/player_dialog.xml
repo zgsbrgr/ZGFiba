@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="player"
+            type="com.zgsbrgr.demo.fiba.domain.Player" />
+    </data>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutDescription="@xml/player_dialog_xml_constraintlayout_scene"
+        tools:background="@color/blue_dark"
+        tools:showPaths="true"
+        >
+
+        <ImageView
+            android:id="@+id/profile_img"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_baseline_person_24"
+            tools:ignore="contentDescription" />
+
+        <TextView
+            android:id="@+id/player_name"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:letterSpacing="0"
+            android:lines="1"
+            android:text="@{player.player}"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:autoSizeMaxTextSize="33sp"
+            app:autoSizeMinTextSize="22sp"
+            tools:text="Firstname Lastname"
+
+            />
+
+
+        <TextView
+            android:id="@+id/player_info"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:alpha="0.85"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:player="@{player}"
+            tools:text="2 m 04 | 88 kg | 29 years"
+
+            />
+
+        <ImageView
+            android:id="@+id/navigate_to_stat_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_baseline_chevron_right_24"
+            tools:ignore="contentDescription"
+
+            />
+
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+</layout>

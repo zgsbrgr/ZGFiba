@@ -1,6 +1,7 @@
 package com.zgsbrgr.demo.fiba.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +15,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.zgsbrgr.demo.fiba.R
+import com.zgsbrgr.demo.fiba.databinding.PlayerDialogBinding
 import com.zgsbrgr.demo.fiba.databinding.RosterBinding
+import com.zgsbrgr.demo.fiba.domain.Player
 import com.zgsbrgr.demo.fiba.domain.Teams
 import com.zgsbrgr.demo.fiba.ui.adapter.RosterAdapter
 import com.zgsbrgr.demo.fiba.ui.adapter.RosterItemClickListener
@@ -29,6 +33,7 @@ class Roster : Fragment() {
     private val viewModel by viewModels<RosterViewModel>()
 
     private val args by navArgs<RosterArgs>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +49,7 @@ class Roster : Fragment() {
             )
             addItemDecoration(DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL))
         }
+
         return viewBinding.root
     }
 
@@ -56,12 +62,9 @@ class Roster : Fragment() {
         viewBinding.awayTeam.text = args.awayTeam.team
 
         val adapter = RosterAdapter(
-            RosterItemClickListener { playerPosition, homeOrAwayTeam ->
-                val bundle = bundleOf(
-                    "team" to if (homeOrAwayTeam == Teams.HOME) args.homeTeam else args.awayTeam,
-                    "position" to playerPosition
-                )
-                this.findNavController().navigate(R.id.playerInfo, bundle)
+            RosterItemClickListener { playerPosition, homeOrAwayTeam, player ->
+
+                showPlayerDialog(playerPosition, homeOrAwayTeam, player)
             }
         )
         viewBinding.rosterRv.adapter = adapter
@@ -80,6 +83,25 @@ class Roster : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showPlayerDialog(playerPosition: Int, homeOrAwayTeam: Teams, player: Player) {
+        Log.d(TAG, playerPosition.toString())
+        Log.d(TAG, homeOrAwayTeam.name)
+        val dialog = BottomSheetDialog(requireActivity())
+
+        val dialogBinding = PlayerDialogBinding.inflate(layoutInflater)
+        dialogBinding.player = player
+        dialogBinding.navigateToStatIcon.setOnClickListener {
+            val bundle = bundleOf(
+                    "team" to if (homeOrAwayTeam == Teams.HOME) args.homeTeam else args.awayTeam,
+                    "position" to playerPosition
+                )
+            this.findNavController().navigate(R.id.playerInfo, bundle)
+            dialog.dismiss()
+        }
+        dialog.setContentView(dialogBinding.root)
+        dialog.show()
     }
 
     companion object {
