@@ -4,22 +4,25 @@ package com.zgsbrgr.demo.fiba.ui.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zgsbrgr.demo.fiba.asResult
 import com.zgsbrgr.demo.fiba.data.RosterRepository
 import com.zgsbrgr.demo.fiba.domain.Team
 import com.zgsbrgr.demo.fiba.domain.Teams
 import com.zgsbrgr.demo.fiba.domain.toStatDataList
 import com.zgsbrgr.demo.fiba.ui.adapter.StatData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class TeamStatViewModel @Inject constructor(
-    rosterRepository: RosterRepository,
-    savedStateHandle: SavedStateHandle
+    private val rosterRepository: RosterRepository,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _homeTeamStatData = mutableListOf<StatData>()
@@ -29,25 +32,12 @@ class TeamStatViewModel @Inject constructor(
     private val awayTeamStatData: List<StatData> = _awayTeamStatData
 
     val uiState: StateFlow<TeamStatUiState> =
-        combine(
-            rosterRepository.fetchRosterForTeam(
-                savedStateHandle.get<Team>("homeTeam")?.id!!
-            ),
-            rosterRepository.fetchRosterForTeam(
-                savedStateHandle.get<Team>("awayTeam")?.id!!
+        teamStatUiState()
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000L),
+                initialValue = TeamStatUiState.Loading
             )
-        ) { homeTeam, awayTeam ->
-            _homeTeamStatData.addAll(homeTeam.toStatDataList())
-            _awayTeamStatData.addAll(awayTeam.toStatDataList())
-            TeamStatUiState.Players(
-                homeTeamStatData,
-                awayTeamStatData
-            )
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = TeamStatUiState.Loading
-        )
 
     fun changeTeamStatData(teams: Teams): List<StatData> {
 
@@ -56,6 +46,40 @@ class TeamStatViewModel @Inject constructor(
         } else {
             awayTeamStatData
         }
+    }
+
+    private fun teamStatUiState(): Flow<TeamStatUiState> {
+        val homeTeamRoster = rosterRepository.fetchRosterForTeam(
+            savedStateHandle.get<Team>("homeTeam")?.id!!
+        )
+        val awayTeamRoster = rosterRepository.fetchRosterForTeam(
+            savedStateHandle.get<Team>("awayTeam")?.id!!
+        )
+
+        return combine(
+            homeTeamRoster,
+            awayTeamRoster,
+            ::Pair
+        ).asResult()
+            .map { homeTeamToAwayTeam ->
+                when (homeTeamToAwayTeam) {
+                    is com.zgsbrgr.demo.fiba.Result.Success -> {
+                        val (homeTeam, awayTeam) = homeTeamToAwayTeam.data
+                        _homeTeamStatData.addAll(homeTeam.toStatDataList())
+                        _awayTeamStatData.addAll(awayTeam.toStatDataList())
+                        TeamStatUiState.Players(
+                            homeTeamStatData,
+                            awayTeamStatData
+                        )
+                    }
+                    is com.zgsbrgr.demo.fiba.Result.Error -> {
+                        TeamStatUiState.Empty
+                    }
+                    is com.zgsbrgr.demo.fiba.Result.Loading -> {
+                        TeamStatUiState.Loading
+                    }
+                }
+            }
     }
 }
 

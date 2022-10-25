@@ -5,8 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +18,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.zgsbrgr.demo.fiba.MyActivityViewModel
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.PlayerDialogBinding
 import com.zgsbrgr.demo.fiba.databinding.RosterBinding
@@ -31,6 +34,8 @@ class Roster : Fragment() {
 
     private lateinit var viewBinding: RosterBinding
     private val viewModel by viewModels<RosterViewModel>()
+
+    private val activityViewModel by activityViewModels<MyActivityViewModel>()
 
     private val args by navArgs<RosterArgs>()
 
@@ -67,18 +72,28 @@ class Roster : Fragment() {
             }
         )
         viewBinding.rosterRv.adapter = adapter
+
         viewLifecycleOwner.lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.rosterUIState.collect {
-                    when (it) {
-                        is RosterUiState.Loading -> {}
-                        is RosterUiState.Empty -> {}
-                        is RosterUiState.Rosters -> {
-                            adapter.submitList(
-                                it.homeAndAwayRosters
-                            )
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                activityViewModel.isOffline.collect { notConnected ->
+                    if (notConnected)
+                        Toast.makeText(
+                            requireActivity(),
+                            resources.getString(R.string.not_connected),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    else
+                        viewModel.rosterUIState.collect {
+                            when (it) {
+                                is RosterUiState.Loading -> {}
+                                is RosterUiState.Empty -> {}
+                                is RosterUiState.Rosters -> {
+                                    adapter.submitList(
+                                        it.homeAndAwayRosters
+                                    )
+                                }
+                            }
                         }
-                    }
                 }
             }
         }

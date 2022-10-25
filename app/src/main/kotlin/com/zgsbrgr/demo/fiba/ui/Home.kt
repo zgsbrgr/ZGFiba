@@ -6,13 +6,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.zgsbrgr.demo.fiba.MyActivityViewModel
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.HomeBinding
 import com.zgsbrgr.demo.fiba.domain.Match
@@ -30,6 +33,7 @@ class Home : Fragment() {
     private lateinit var viewBinding: HomeBinding
 
     private val viewModel by viewModels<HomeViewModel>()
+    private val activityViewModel by activityViewModels<MyActivityViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,11 +87,21 @@ class Home : Fragment() {
         )
         adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         viewBinding.homeRecycler.adapter = adapter
+
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect {
-                    println(it.data.toString())
-                    adapter.submitList(it.data)
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                activityViewModel.isOffline.collect { notConnected ->
+                    if (notConnected)
+                        Toast.makeText(
+                            requireActivity(),
+                            resources.getString(R.string.not_connected),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    else
+                        viewModel.uiState.collect {
+                            println(it.data.toString())
+                            adapter.submitList(it.data)
+                        }
                 }
             }
         }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +14,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.zgsbrgr.demo.fiba.MyActivityViewModel
+import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.data.GameInfoRepository
 import com.zgsbrgr.demo.fiba.databinding.GameInfoBinding
 import com.zgsbrgr.demo.fiba.domain.Match
@@ -32,6 +35,8 @@ class GameInfo : Fragment() {
 
     @Inject
     lateinit var gameInfoRepository: GameInfoRepository
+
+    private val activityViewModel by activityViewModels<MyActivityViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,19 +67,34 @@ class GameInfo : Fragment() {
 
         viewBinding.eventRv.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.uiState.collect {
-                    it.data?.let { event ->
-                        eventList.add(event)
-                        if (adapter.currentList.isEmpty())
-                            adapter.submitList(eventList)
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                activityViewModel.isOffline.collect { notConnected ->
+                    if (notConnected)
+                        Toast.makeText(
+                            requireActivity(),
+                            resources.getString(R.string.not_connected),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    else {
+                        viewModel.uiState.collect {
+                            it.data?.let { event ->
+                                eventList.add(event)
+                                if (adapter.currentList.isEmpty())
+                                    adapter.submitList(eventList)
 
-                        adapter.notifyItemInserted(eventList.size)
-                        viewBinding.eventRv.scrollToPosition(eventList.size - 1)
+                                adapter.notifyItemInserted(eventList.size)
+                                viewBinding.eventRv.scrollToPosition(eventList.size - 1)
+                            }
+
+                            if (it.error != null)
+                                Toast.makeText(
+                                    requireActivity(),
+                                    it.error.toString(),
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                        }
                     }
-
-                    if (it.error != null)
-                        Toast.makeText(requireActivity(), it.error.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
         }

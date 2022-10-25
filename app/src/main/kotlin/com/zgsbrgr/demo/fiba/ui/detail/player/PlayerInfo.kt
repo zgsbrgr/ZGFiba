@@ -8,12 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.zgsbrgr.demo.fiba.MyActivityViewModel
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.PlayerPageBinding
 import com.zgsbrgr.demo.fiba.domain.Player
@@ -26,6 +29,7 @@ class PlayerInfo : Fragment() {
 
     private lateinit var viewBinding: PlayerPageBinding
     private val viewModel by viewModels<PlayerInfoViewModel>()
+    private val activityViewModel by activityViewModels<MyActivityViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,12 +51,20 @@ class PlayerInfo : Fragment() {
         viewBinding.teamName = team?.team
 
         viewLifecycleOwner.lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect {
-
-                    it.player?.let { currentPlayer ->
-                        viewBinding.player = currentPlayer
-                    }
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                activityViewModel.isOffline.collect { notConnected ->
+                    if (notConnected)
+                        Toast.makeText(
+                            requireActivity(),
+                            resources.getString(R.string.not_connected),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    else
+                        viewModel.uiState.collect {
+                            it.player?.let { currentPlayer ->
+                                viewBinding.player = currentPlayer
+                            }
+                        }
                 }
             }
         }

@@ -18,8 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MatchesViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    repository: HomeRepository
+    private val savedStateHandle: SavedStateHandle,
+    private val repository: HomeRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MatchesUIState(loading = true))
