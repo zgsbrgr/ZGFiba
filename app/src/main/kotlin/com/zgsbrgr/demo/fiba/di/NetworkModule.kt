@@ -1,6 +1,8 @@
 package com.zgsbrgr.demo.fiba.di
 
 import com.zgsbrgr.demo.fiba.ZGFibaApp
+import com.zgsbrgr.demo.fiba.data.util.ConnectivityManagerNetworkMonitor
+import com.zgsbrgr.demo.fiba.data.util.NetworkMonitor
 import com.zgsbrgr.demo.fiba.network.ZGFibaNetworkDataSource
 import com.zgsbrgr.demo.fiba.network.retrofit.RetrofitZGFibaNetwork
 import dagger.Binds
@@ -17,6 +19,11 @@ interface NetworkModule {
 
     @Binds
     fun bindZGFibaNetwork(retrofitZGFibaNetwork: RetrofitZGFibaNetwork): ZGFibaNetworkDataSource
+
+    @Binds
+    fun bindsNetworkMonitor(
+        networkMonitor: ConnectivityManagerNetworkMonitor
+    ): NetworkMonitor
 
     companion object {
         @Provides
