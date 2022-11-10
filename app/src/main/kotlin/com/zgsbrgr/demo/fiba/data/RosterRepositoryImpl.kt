@@ -15,19 +15,31 @@ class RosterRepositoryImpl @Inject constructor(
     @Dispatcher(ZGFibaDispatchers.IO) private val ioDispatcher: CoroutineDispatcher
 ) : RosterRepository {
 
+    // TODO add proper error handling
     override fun fetchRosterForTeam(teamId: String): Flow<List<Player>> = flow {
         emit(
-            networkDataSource.getTeamRoster(teamId).map {
-                it.toRoster()
+            try {
+                networkDataSource.getTeamRoster(teamId).map {
+                    it.toRoster()
+                }
+            }catch (e: Exception) {
+                emptyList()
             }
+
         )
     }.flowOn(ioDispatcher)
 
+    // TODO add proper error handling
     override fun fetchRosterForTeamExceptStatistics(teamId: String): Flow<List<Player>> = flow {
         emit(
-            networkDataSource.getTeamRoster(teamId).map { it.toRoster() }.filter {
-                it.age != null
+            try {
+                networkDataSource.getTeamRoster(teamId).map { it.toRoster() }.filter {
+                    it.age != null
+                }
+            }catch (e: Exception) {
+                emptyList()
             }
+
         )
     }.flowOn(ioDispatcher)
 }

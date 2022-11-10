@@ -28,6 +28,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.MatchDetailBinding
 import com.zgsbrgr.demo.fiba.domain.Match
+import com.zgsbrgr.demo.fiba.ext.matchDate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.math.hypot
@@ -36,7 +37,9 @@ import kotlin.math.max
 @AndroidEntryPoint
 class MatchDetail : Fragment() {
 
-    private lateinit var viewBinding: MatchDetailBinding
+    private var _viewBinding: MatchDetailBinding? = null
+    private val viewBinding get() = _viewBinding!!
+
     private lateinit var pagerAdapter: GamePagerAdapter
 
     private val args by navArgs<MatchDetailArgs>()
@@ -48,7 +51,7 @@ class MatchDetail : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewBinding = MatchDetailBinding.inflate(inflater, container, false)
+        _viewBinding = MatchDetailBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
 
@@ -59,8 +62,6 @@ class MatchDetail : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewBinding.lifecycleOwner = this.viewLifecycleOwner
 
         setupMenu()
         addBackPressCallback()
@@ -97,7 +98,12 @@ class MatchDetail : Fragment() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
                     it.data?.let { match ->
-                        viewBinding.itemMatch = match
+                        viewBinding.apply {
+                            dateTv.matchDate(match.date)
+                            homeTeam.text = match.home.team
+                            awayTeam.text = match.away.team
+                            tagTv.text = match.tag
+                        }
                         setPointsForTeams(match)
                     }
                 }
@@ -220,6 +226,12 @@ class MatchDetail : Fragment() {
             anim.start()
             isOpened = false
         }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _viewBinding = null
     }
 
     companion object {

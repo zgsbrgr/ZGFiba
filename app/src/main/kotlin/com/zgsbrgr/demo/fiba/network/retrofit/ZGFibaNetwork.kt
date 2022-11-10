@@ -37,6 +37,13 @@ data class NetworkResponse<T>(
     val data: T
 )
 
+sealed class Resource<T> {
+    @Serializable
+    data class Success<T>(val data: T) : Resource<T>()
+    data class Error<T>(val error: Throwable) : Resource<T>()
+    class Loading<T> : Resource<T>()
+}
+
 private const val CACHE_SIZE = 5 * 1024 * 1024L // 5 MB
 const val CACHE_CONTROL_HEADER = "Cache-Control"
 const val CACHE_CONTROL_NO_CACHE = "no-cache"

@@ -18,12 +18,14 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import com.zgsbrgr.demo.fiba.MyActivityViewModel
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.PlayerDialogBinding
 import com.zgsbrgr.demo.fiba.databinding.RosterBinding
 import com.zgsbrgr.demo.fiba.domain.Player
 import com.zgsbrgr.demo.fiba.domain.Teams
+import com.zgsbrgr.demo.fiba.ext.formatPlayerHeightAndAgeToSetInTextView
 import com.zgsbrgr.demo.fiba.ui.adapter.RosterAdapter
 import com.zgsbrgr.demo.fiba.ui.adapter.RosterItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +34,9 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class Roster : Fragment() {
 
-    private lateinit var viewBinding: RosterBinding
+    private var _viewBinding: RosterBinding? = null
+    private val viewBinding get() = _viewBinding!!
+
     private val viewModel by viewModels<RosterViewModel>()
 
     private val activityViewModel by activityViewModels<MyActivityViewModel>()
@@ -44,7 +48,7 @@ class Roster : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewBinding = RosterBinding.inflate(inflater, container, false)
+        _viewBinding = RosterBinding.inflate(inflater, container, false)
         viewBinding.rosterRv.apply {
             layoutManager = LinearLayoutManager(
                 requireActivity(),
@@ -60,7 +64,6 @@ class Roster : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewBinding.lifecycleOwner = this.viewLifecycleOwner
 
         viewBinding.homeTeam.text = args.homeTeam.team
         viewBinding.awayTeam.text = args.awayTeam.team
@@ -75,28 +78,37 @@ class Roster : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                activityViewModel.isOffline.collect { notConnected ->
-                    if (notConnected)
-                        Toast.makeText(
-                            requireActivity(),
-                            resources.getString(R.string.not_connected),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    else
-                        viewModel.rosterUIState.collect {
-                            when (it) {
-                                is RosterUiState.Loading -> {}
-                                is RosterUiState.Empty -> {}
-                                is RosterUiState.Rosters -> {
-                                    adapter.submitList(
-                                        it.homeAndAwayRosters
-                                    )
-                                }
+                launch {
+                    activityViewModel.isOffline.collect { notConnected->
+                        Log.d("connected", notConnected.toString())
+                        if (notConnected) {
+                            Snackbar
+                                .make(
+                                    viewBinding.root,
+                                    resources.getString(R.string.not_connected),
+                                    Snackbar.LENGTH_LONG
+                                )
+                                .show()
+                        }
+                    }
+                }
+                launch {
+                    viewModel.rosterUIState.collect {
+                        when(it) {
+                            is RosterUiState.Loading -> {}
+                            is RosterUiState.Empty -> {}
+                            is RosterUiState.Rosters -> {
+                                adapter.submitList(
+                                    it.homeAndAwayRosters
+                                )
                             }
                         }
+                    }
                 }
             }
         }
+
+
     }
 
     private fun showPlayerDialog(playerPosition: Int, homeOrAwayTeam: Teams, player: Player) {
@@ -105,7 +117,11 @@ class Roster : Fragment() {
         val dialog = BottomSheetDialog(requireActivity())
 
         val dialogBinding = PlayerDialogBinding.inflate(layoutInflater)
-        dialogBinding.player = player
+        dialogBinding.apply {
+            playerName.text = player.player
+            playerInfo.formatPlayerHeightAndAgeToSetInTextView(player)
+
+        }
         dialogBinding.navigateToStatIcon.setOnClickListener {
             val bundle = bundleOf(
                 "team" to if (homeOrAwayTeam == Teams.HOME) args.homeTeam else args.awayTeam,
@@ -116,6 +132,11 @@ class Roster : Fragment() {
         }
         dialog.setContentView(dialogBinding.root)
         dialog.show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _viewBinding = null
     }
 
     companion object {

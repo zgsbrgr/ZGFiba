@@ -41,12 +41,15 @@ object RepositoryModule {
         @Dispatcher(IO) ioDispatcher: CoroutineDispatcher
     ): PlayerRepository =
         PlayerRepositoryImpl(networkDataSource, ioDispatcher)
-}
-
-@Module
-@InstallIn(FragmentComponent::class)
-object GameInfoRepoModule {
 
     @Provides
     fun provideGameInfoRepository(): GameInfoRepository = GameInfoRepositoryImpl()
 }
+
+//@Module
+//@InstallIn(FragmentComponent::class)
+//object GameInfoRepoModule {
+//
+//    @Provides
+//    fun provideGameInfoRepository(): GameInfoRepository = GameInfoRepositoryImpl()
+//}

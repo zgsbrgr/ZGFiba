@@ -5,6 +5,8 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import android.os.Build
+import android.util.Log
 import androidx.core.content.getSystemService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
@@ -19,10 +21,12 @@ class ConnectivityManagerNetworkMonitor @Inject constructor(
     override val isOnline: Flow<Boolean> = callbackFlow<Boolean> {
         val callback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
+                Log.d("connected", "true sent to channel")
                 channel.trySend(true)
             }
 
             override fun onLost(network: Network) {
+                Log.d("connected", "false sent to channel")
                 channel.trySend(false)
             }
         }
@@ -48,7 +52,7 @@ class ConnectivityManagerNetworkMonitor @Inject constructor(
     private fun ConnectivityManager?.isCurrentlyConnected() = when (this) {
         null -> false
         else -> when {
-            true ->
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ->
                 activeNetwork
                     ?.let(::getNetworkCapabilities)
                     ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)

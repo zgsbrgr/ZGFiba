@@ -7,8 +7,6 @@ import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +15,7 @@ import com.bumptech.glide.request.target.Target
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.ItemMatchBinding
 import com.zgsbrgr.demo.fiba.domain.Match
+import com.zgsbrgr.demo.fiba.ext.matchDate
 import java.util.UUID
 
 class MatchAdapter(
@@ -36,7 +35,14 @@ class MatchAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Match, clickListener: MatchItemClickListener) {
-            binding.itemMatch = item
+
+            binding.apply {
+                dateTv.matchDate(item.date)
+                homeTeam.text = item.home.team
+                awayTeam.text = item.away.team
+                tagTv.text = item.tag
+            }
+
             binding.preview.transitionName = UUID.randomUUID().toString()
             binding.root.setOnClickListener {
                 clickListener.onClick(item, binding.preview)
@@ -69,7 +75,6 @@ class MatchAdapter(
                 .override(Target.SIZE_ORIGINAL)
                 .into(binding.preview)
 
-            binding.executePendingBindings()
         }
 
         companion object {
@@ -96,19 +101,4 @@ class MatchItemClickListener(val clickListener: (item: Match, imageView: ImageVi
     fun onClick(item: Match, imageView: ImageView) = clickListener(item, imageView)
 }
 
-@BindingAdapter("dateText")
-fun matchDate(dateTextView: TextView, str: String?) {
-    str?.let {
-        dateTextView.text = dateTextView.context.resources.getString(R.string.date_pl, it)
-    }
-}
 
-@BindingAdapter("winnerBold")
-fun setStyleForWinner(textView: TextView, isWinner: Boolean?) {
-    isWinner?.let {
-        if (it)
-            textView.typeface = Typeface.DEFAULT_BOLD
-        else
-            textView.typeface = Typeface.DEFAULT
-    }
-}

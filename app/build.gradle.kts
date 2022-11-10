@@ -77,7 +77,6 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
         viewBinding = true
     }
     packagingOptions {
@@ -118,7 +117,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
 
     // hilt
     implementation("com.google.dagger:hilt-android:2.42")
@@ -134,6 +133,7 @@ dependencies {
 
     // by viewmodels
     implementation("androidx.fragment:fragment-ktx:1.5.4")
+    implementation("androidx.activity:activity-ktx:1.6.1")
 
     implementation("com.github.bumptech.glide:glide:4.13.2")
     kapt("com.github.bumptech.glide:compiler:4.13.2")

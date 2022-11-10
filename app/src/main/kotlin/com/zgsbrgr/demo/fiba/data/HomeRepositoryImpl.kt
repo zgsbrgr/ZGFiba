@@ -17,9 +17,14 @@ class HomeRepositoryImpl @Inject constructor(
 
     override fun loadDataForHome(): Flow<List<Section>> = flow {
         emit(
-            networkDataSource.getResults().map {
-                it.toDomain()
-            }.asReversed()
+            try {
+                networkDataSource.getResults().map {
+                    it.toDomain()
+                }.asReversed()
+            }catch (e: Exception) {
+                emptyList()
+            }
+
         )
     }.flowOn(ioDispatcher)
 }

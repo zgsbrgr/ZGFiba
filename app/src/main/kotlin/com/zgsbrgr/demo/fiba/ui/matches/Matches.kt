@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.zgsbrgr.demo.fiba.MyActivityViewModel
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.MatchesBinding
@@ -29,7 +30,9 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class Matches : Fragment() {
 
-    private lateinit var viewBinding: MatchesBinding
+    private var _viewBinding: MatchesBinding? = null
+    private val viewBinding get() = _viewBinding!!
+
     private val args by navArgs<MatchesArgs>()
 
     private val viewModel by viewModels<MatchesViewModel>()
@@ -40,7 +43,7 @@ class Matches : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewBinding = MatchesBinding.inflate(inflater, container, false)
+        _viewBinding = MatchesBinding.inflate(inflater, container, false)
         viewBinding.matchesRv.apply {
             layoutManager = GridLayoutManager(requireActivity(), 2, GridLayoutManager.VERTICAL, false)
             addItemDecoration(SpaceItemDecoration(R.dimen.space))
@@ -50,8 +53,6 @@ class Matches : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewBinding.lifecycleOwner = this.viewLifecycleOwner
 
         val adapter = MatchAdapter(
             MatchItemClickListener { match, imageView ->
@@ -72,30 +73,36 @@ class Matches : Fragment() {
         viewBinding.matchesRv.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect {
-                    Log.d(TAG, it.data.toString())
-                    adapter.submitList(it.data)
+                launch {
+                    viewModel.uiState.collect {
+                        Log.d(TAG, it.data.toString())
+                        adapter.submitList(it.data)
+                    }
                 }
+                launch {
+                    activityViewModel.isOffline.collect { notConnected->
+                        Log.d("connected", notConnected.toString())
+                        if (notConnected) {
+                            Snackbar
+                                .make(
+                                    viewBinding.root,
+                                    resources.getString(R.string.not_connected),
+                                    Snackbar.LENGTH_LONG
+                                )
+                                .show()
+                        }
+                    }
+                }
+
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                activityViewModel.isOffline.collect { notConnected ->
-                    if (notConnected) {
-                        Toast.makeText(
-                            requireActivity(),
-                            resources.getString(R.string.not_connected),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else
-                        viewModel.uiState.collect {
-                            Log.d(TAG, it.data.toString())
-                            adapter.submitList(it.data)
-                        }
-                }
-            }
-        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _viewBinding = null
     }
 
     companion object {

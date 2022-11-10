@@ -1,5 +1,6 @@
 package com.zgsbrgr.demo.fiba.ui.detail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -7,6 +8,8 @@ import com.zgsbrgr.demo.fiba.Result
 import com.zgsbrgr.demo.fiba.asResult
 import com.zgsbrgr.demo.fiba.data.GameInfoRepository
 import com.zgsbrgr.demo.fiba.domain.MatchEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,10 +18,13 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import java.lang.IllegalArgumentException
 
-class GameInfoViewModel(
+const val ARG_OBJECT = "arg_object"
+const val ARG_MATCH_ID = "arg_match_id"
+
+@HiltViewModel
+class GameInfoViewModel @Inject constructor(
     gameInfoRepository: GameInfoRepository,
-    matchId: String,
-    page: Int
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(EventUIState(loading = true))
@@ -26,8 +32,9 @@ class GameInfoViewModel(
 
     init {
         // limit only to summary tab
-        if (page == 1) {
-            val infoResult = gameInfoRepository.fetchGameInfo(matchId).asResult()
+        if (savedStateHandle.get<Int>(ARG_OBJECT) == 1) {
+            val infoResult =
+                gameInfoRepository.fetchGameInfo(savedStateHandle.get<String>(ARG_MATCH_ID)!!).asResult()
             infoResult.onEach { result ->
 
                 _uiState.update {
@@ -47,19 +54,6 @@ class GameInfoViewModel(
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
-    class GameInfoViewModelFactory(
-        private val repository: GameInfoRepository,
-        private val arg: String?,
-        private val page: Int?
-    ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(GameInfoViewModel::class.java)) {
-                return GameInfoViewModel(repository, arg!!, page!!) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
-    }
 }
 
 data class EventUIState(

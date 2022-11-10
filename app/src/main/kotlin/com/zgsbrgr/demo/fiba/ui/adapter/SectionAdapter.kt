@@ -32,7 +32,11 @@ class SectionAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Section, clickListener: SectionClickListener<in Any>) {
-            binding.item = item
+
+            binding.apply {
+                sectionTitle.text = item.section
+
+            }
             val adapter = MatchAdapter(
                 MatchItemClickListener { match, imageView ->
                     Log.d("Section List", "match item clicked with id: ${match.id} and shared image ${imageView.id}")
@@ -45,7 +49,7 @@ class SectionAdapter(
             }
             binding.gamesRv.adapter = adapter
             adapter.submitList(item.matches)
-            binding.executePendingBindings()
+
         }
 
         companion object {
