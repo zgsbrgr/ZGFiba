@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    android:background="@color/black"
     >
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -43,7 +42,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:clipToPadding="true"
         android:layout_marginBottom="30dp"
-
-
         />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

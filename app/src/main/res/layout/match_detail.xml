@@ -6,10 +6,7 @@
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     >
-
-
 
     <ImageView
         android:id="@+id/preview"
@@ -123,6 +120,7 @@
         app:tabSelectedTextColor="@color/teal_200"
         app:tabTextColor="@android:color/white"
         app:tabBackground="@color/blue"
+        android:background="@color/blue"
         />
 
     <androidx.viewpager2.widget.ViewPager2
