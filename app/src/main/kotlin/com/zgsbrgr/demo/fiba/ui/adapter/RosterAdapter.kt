@@ -30,7 +30,6 @@ class RosterAdapter(
 
         fun bind(item: Pair<Player?, Player?>, position: Int, clickListener: RosterItemClickListener) {
 
-
             if (position % 2 == 0)
                 binding.root.setBackgroundColor(
                     ResourcesCompat.getColor(binding.root.resources, R.color.blue, null)

@@ -74,7 +74,6 @@ class MatchAdapter(
                 .error(R.drawable.placeholder)
                 .override(Target.SIZE_ORIGINAL)
                 .into(binding.preview)
-
         }
 
         companion object {
@@ -100,5 +99,3 @@ class MatchAdapter(
 class MatchItemClickListener(val clickListener: (item: Match, imageView: ImageView) -> Unit) {
     fun onClick(item: Match, imageView: ImageView) = clickListener(item, imageView)
 }
-
-

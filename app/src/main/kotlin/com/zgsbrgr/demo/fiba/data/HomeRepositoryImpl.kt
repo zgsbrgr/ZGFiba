@@ -6,6 +6,7 @@ import com.zgsbrgr.demo.fiba.domain.Section
 import com.zgsbrgr.demo.fiba.network.ZGFibaNetworkDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
@@ -17,14 +18,12 @@ class HomeRepositoryImpl @Inject constructor(
 
     override fun loadDataForHome(): Flow<List<Section>> = flow {
         emit(
-            try {
-                networkDataSource.getResults().map {
-                    it.toDomain()
-                }.asReversed()
-            }catch (e: Exception) {
-                emptyList()
-            }
-
+            networkDataSource.getResults().map {
+                it.toDomain()
+            }.asReversed()
         )
+    }.catch {
+        // TODO add proper error handling
+        emit(emptyList())
     }.flowOn(ioDispatcher)
 }

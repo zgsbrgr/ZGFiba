@@ -13,7 +13,6 @@ import com.zgsbrgr.demo.fiba.network.ZGFibaNetworkDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.CoroutineDispatcher
 
@@ -45,11 +44,3 @@ object RepositoryModule {
     @Provides
     fun provideGameInfoRepository(): GameInfoRepository = GameInfoRepositoryImpl()
 }
-
-//@Module
-//@InstallIn(FragmentComponent::class)
-//object GameInfoRepoModule {
-//
-//    @Provides
-//    fun provideGameInfoRepository(): GameInfoRepository = GameInfoRepositoryImpl()
-//}

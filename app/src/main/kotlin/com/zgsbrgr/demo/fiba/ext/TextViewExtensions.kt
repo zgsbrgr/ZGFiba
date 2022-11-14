@@ -1,6 +1,5 @@
 package com.zgsbrgr.demo.fiba.ext
 
-import android.graphics.Typeface
 import android.widget.TextView
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.domain.Player
@@ -33,11 +32,8 @@ fun TextView.formatGamesPlayedToSetInTextView(gamesPlayed: Int?) {
     }
 }
 
-
 fun TextView.matchDate(str: String?) {
     str?.let {
         this.text = this.context.resources.getString(R.string.date_pl, it)
     }
 }
-
-

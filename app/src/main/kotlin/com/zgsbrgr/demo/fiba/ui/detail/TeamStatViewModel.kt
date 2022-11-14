@@ -60,26 +60,25 @@ class TeamStatViewModel @Inject constructor(
             homeTeamRoster,
             awayTeamRoster,
             ::Pair
-        ).asResult()
-            .map { homeTeamToAwayTeam ->
-                when (homeTeamToAwayTeam) {
-                    is com.zgsbrgr.demo.fiba.Result.Success -> {
-                        val (homeTeam, awayTeam) = homeTeamToAwayTeam.data
-                        _homeTeamStatData.addAll(homeTeam.toStatDataList())
-                        _awayTeamStatData.addAll(awayTeam.toStatDataList())
-                        TeamStatUiState.Players(
-                            homeTeamStatData,
-                            awayTeamStatData
-                        )
-                    }
-                    is com.zgsbrgr.demo.fiba.Result.Error -> {
-                        TeamStatUiState.Empty
-                    }
-                    is com.zgsbrgr.demo.fiba.Result.Loading -> {
-                        TeamStatUiState.Loading
-                    }
+        ).asResult().map { homeTeamToAwayTeam ->
+            when (homeTeamToAwayTeam) {
+                is com.zgsbrgr.demo.fiba.Result.Success -> {
+                    val (homeTeam, awayTeam) = homeTeamToAwayTeam.data
+                    _homeTeamStatData.addAll(homeTeam.toStatDataList())
+                    _awayTeamStatData.addAll(awayTeam.toStatDataList())
+                    TeamStatUiState.Players(
+                        homeTeamStatData,
+                        awayTeamStatData
+                    )
+                }
+                is com.zgsbrgr.demo.fiba.Result.Error -> {
+                    TeamStatUiState.Empty
+                }
+                is com.zgsbrgr.demo.fiba.Result.Loading -> {
+                    TeamStatUiState.Loading
                 }
             }
+        }
     }
 }
 

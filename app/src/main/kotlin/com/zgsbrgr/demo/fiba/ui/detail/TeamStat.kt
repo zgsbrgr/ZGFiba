@@ -3,21 +3,16 @@ package com.zgsbrgr.demo.fiba.ui.detail
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
-import com.zgsbrgr.demo.fiba.MyActivityViewModel
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.TeamStatBinding
 import com.zgsbrgr.demo.fiba.domain.Teams
@@ -34,7 +29,6 @@ class TeamStat : Fragment() {
     private val viewBinding get() = _viewBinding!!
 
     private val viewModel by viewModels<TeamStatViewModel>()
-    private val activityViewModel by activityViewModels<MyActivityViewModel>()
 
     private val args by navArgs<TeamStatArgs>()
 
@@ -84,27 +78,11 @@ class TeamStat : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         viewBinding.homeTeam.text = args.homeTeam.team
         viewBinding.awayTeam.text = args.awayTeam.team
 
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    activityViewModel.isOffline.collect { notConnected->
-                        Log.d("connected", notConnected.toString())
-                        if (notConnected) {
-                            Snackbar
-                                .make(
-                                    viewBinding.root,
-                                    resources.getString(R.string.not_connected),
-                                    Snackbar.LENGTH_LONG
-                                )
-                                .show()
-                        }
-                    }
-                }
                 launch {
                     viewModel.uiState.collect {
                         when (it) {
@@ -118,9 +96,6 @@ class TeamStat : Fragment() {
                 }
             }
         }
-
-
-
     }
 
     override fun onDestroy() {

@@ -4,6 +4,7 @@ package com.zgsbrgr.demo.fiba.ui.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zgsbrgr.demo.fiba.Result
 import com.zgsbrgr.demo.fiba.asResult
 import com.zgsbrgr.demo.fiba.data.RosterRepository
 import com.zgsbrgr.demo.fiba.domain.Player
@@ -37,6 +38,7 @@ class RosterViewModel @Inject constructor(
         val awayPlayer: Flow<List<Player>> = rosterRepository.fetchRosterForTeamExceptStatistics(
             savedStateHandle.get<Team>("awayTeam")?.id!!
         )
+
         return combine(
             homePlayer,
             awayPlayer,
@@ -44,7 +46,7 @@ class RosterViewModel @Inject constructor(
         ).asResult()
             .map { homePlayersToAwayPlayers ->
                 when (homePlayersToAwayPlayers) {
-                    is com.zgsbrgr.demo.fiba.Result.Success -> {
+                    is Result.Success -> {
                         val (homePlayers, awayPlayers) = homePlayersToAwayPlayers.data
                         val size =
                             if (homePlayers.size > awayPlayers.size)
@@ -63,10 +65,10 @@ class RosterViewModel @Inject constructor(
                             homeAndAwayRosters
                         )
                     }
-                    is com.zgsbrgr.demo.fiba.Result.Loading -> {
+                    is Result.Loading -> {
                         RosterUiState.Loading
                     }
-                    is com.zgsbrgr.demo.fiba.Result.Error -> {
+                    is Result.Error -> {
                         RosterUiState.Empty
                     }
                 }

@@ -1,7 +1,6 @@
 @file:Suppress("MagicNumber")
 package com.zgsbrgr.demo.fiba.data
 
-import android.util.Log
 import com.zgsbrgr.demo.fiba.domain.MatchEvent
 import com.zgsbrgr.demo.fiba.domain.MatchEventTeam
 import kotlinx.coroutines.Dispatchers
@@ -27,8 +26,6 @@ class GameInfoRepositoryImpl : GameInfoRepository {
                     randomEvent.iconRes
                 )
             )
-
-            Log.d("GAME", "coroutine is running ${randomEvent.eventRes}")
         }
     }.flowOn(Dispatchers.IO)
 }

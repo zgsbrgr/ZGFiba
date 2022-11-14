@@ -1,12 +1,10 @@
 package com.zgsbrgr.demo.fiba.ui
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.zgsbrgr.demo.fiba.Result
 import com.zgsbrgr.demo.fiba.asResult
 import com.zgsbrgr.demo.fiba.data.HomeRepository
-import com.zgsbrgr.demo.fiba.data.util.NetworkMonitor
 import com.zgsbrgr.demo.fiba.domain.Section
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,21 +14,14 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository
 ) : ViewModel() {
 
-
     private val _uiState = MutableStateFlow(HomeUIState<Section>(loading = true))
     val uiState: StateFlow<HomeUIState<Section>> = _uiState.asStateFlow()
-
 
     init {
         val result = homeRepository.loadDataForHome().asResult()

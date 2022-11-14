@@ -52,12 +52,11 @@ class PlayerInfo : Fragment() {
 
         team?.let {
             viewBinding.teamName.text = it.team
-
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    activityViewModel.isOffline.collect { notConnected->
+                    activityViewModel.isOffline.collect { notConnected ->
                         Log.d("connected", notConnected.toString())
                         if (notConnected) {
                             Snackbar
@@ -68,12 +67,11 @@ class PlayerInfo : Fragment() {
                                 )
                                 .show()
                         }
-
                     }
                 }
                 launch {
                     viewModel.uiState.collect {
-                        it.player?.let { player->
+                        it.player?.let { player ->
                             viewBinding.playerName.text = player.player
                             viewBinding.playerPosition.formatPlayerNumberAndPosition(player.playedPosition)
                             viewBinding.ppgValue.formatPlayerStatToSetInTextView(player.pointsAvg)
@@ -92,7 +90,6 @@ class PlayerInfo : Fragment() {
                 }
             }
         }
-
     }
 
     override fun onDestroy() {

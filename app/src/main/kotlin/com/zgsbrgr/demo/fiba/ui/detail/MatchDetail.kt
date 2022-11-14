@@ -228,7 +228,6 @@ class MatchDetail : Fragment() {
         }
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         _viewBinding = null

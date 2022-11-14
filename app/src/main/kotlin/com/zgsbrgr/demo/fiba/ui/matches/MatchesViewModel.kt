@@ -26,7 +26,7 @@ class MatchesViewModel @Inject constructor(
     val uiState: StateFlow<MatchesUIState> = _uiState.asStateFlow()
 
     init {
-        val result = repository.loadDataForHome().asResult()
+        val result = repository.loadDataForHome().asResult() // .asResult()
         result.onEach { fetchResult ->
             _uiState.update {
                 when (fetchResult) {

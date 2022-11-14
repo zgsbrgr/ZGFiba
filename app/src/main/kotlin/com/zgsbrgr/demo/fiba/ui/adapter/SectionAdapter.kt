@@ -35,7 +35,6 @@ class SectionAdapter(
 
             binding.apply {
                 sectionTitle.text = item.section
-
             }
             val adapter = MatchAdapter(
                 MatchItemClickListener { match, imageView ->
@@ -49,7 +48,6 @@ class SectionAdapter(
             }
             binding.gamesRv.adapter = adapter
             adapter.submitList(item.matches)
-
         }
 
         companion object {

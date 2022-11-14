@@ -1,32 +1,24 @@
 package com.zgsbrgr.demo.fiba.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.google.android.material.snackbar.Snackbar
-import com.zgsbrgr.demo.fiba.MyActivityViewModel
-import com.zgsbrgr.demo.fiba.R
-import com.zgsbrgr.demo.fiba.data.GameInfoRepository
 import com.zgsbrgr.demo.fiba.databinding.GameInfoBinding
 import com.zgsbrgr.demo.fiba.domain.Match
 import com.zgsbrgr.demo.fiba.domain.MatchEvent
 import com.zgsbrgr.demo.fiba.ui.adapter.MatchEventAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class GameInfo : Fragment() {
@@ -34,9 +26,7 @@ class GameInfo : Fragment() {
     private var _viewBinding: GameInfoBinding? = null
     private val viewBinding get() = _viewBinding!!
 
-
     private val viewModel by viewModels<GameInfoViewModel>()
-    private val activityViewModel by activityViewModels<MyActivityViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,20 +53,6 @@ class GameInfo : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    activityViewModel.isOffline.collect { notConnected->
-                        Log.d("connected", notConnected.toString())
-                        if (notConnected) {
-                            Snackbar
-                                .make(
-                                    viewBinding.root,
-                                    resources.getString(R.string.not_connected),
-                                    Snackbar.LENGTH_LONG
-                                )
-                                .show()
-                        }
-                    }
-                }
-                launch {
                     viewModel.uiState.collect {
                         it.data?.let { event ->
                             eventList.add(event)
@@ -96,10 +72,8 @@ class GameInfo : Fragment() {
                                 .show()
                     }
                 }
-
             }
         }
-
     }
 
     override fun onDestroy() {

@@ -1,28 +1,20 @@
 package com.zgsbrgr.demo.fiba
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.onNavDestinationSelected
 import com.google.android.material.snackbar.Snackbar
-import com.zgsbrgr.demo.fiba.data.util.NetworkMonitor
+import com.zgsbrgr.demo.fiba.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -31,12 +23,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    private val viewModel by viewModels<MyActivityViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val topLevelDestinations = setOf(
             R.id.home
@@ -50,12 +45,27 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             topLevelDestinations
         )
+
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isOffline.collect { notConnected ->
+                    if (notConnected) {
+                        Snackbar
+                            .make(
+                                binding.root,
+                                resources.getString(R.string.not_connected),
+                                Snackbar.LENGTH_LONG
+                            )
+                            .show()
+                    }
+                }
+            }
+        }
 //        navController.addOnDestinationChangedListener { _, destination, _ ->
 //            if (topLevelDestinations.contains(destination.id)) supportActionBar?.hide() else supportActionBar?.show()
 //        }
 
         // setupActionBarWithNavController(navController, appBarConfiguration)
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

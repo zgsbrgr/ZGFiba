@@ -15,6 +15,6 @@ class PlayerRepositoryImpl @Inject constructor(
 
     override suspend fun fetchPlayer(teamId: String, positionInTeam: Int): Player =
         withContext(ioDispatcher) {
-            return@withContext networkDataSource.getTeamRoster(teamId)[positionInTeam].toRoster()
+            networkDataSource.getTeamRoster(teamId)[positionInTeam].toRoster()
         }
 }

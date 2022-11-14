@@ -5,7 +5,6 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import android.os.Build
 import android.util.Log
 import androidx.core.content.getSystemService
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -51,13 +50,10 @@ class ConnectivityManagerNetworkMonitor @Inject constructor(
     @Suppress("DEPRECATION")
     private fun ConnectivityManager?.isCurrentlyConnected() = when (this) {
         null -> false
-        else -> when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ->
-                activeNetwork
-                    ?.let(::getNetworkCapabilities)
-                    ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                    ?: false
-            else -> activeNetworkInfo?.isConnected ?: false
-        }
+        else ->
+            activeNetwork
+                ?.let(::getNetworkCapabilities)
+                ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                ?: false
     }
 }

@@ -2,21 +2,19 @@ package com.zgsbrgr.demo.fiba.ui.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.zgsbrgr.demo.fiba.Result
 import com.zgsbrgr.demo.fiba.asResult
 import com.zgsbrgr.demo.fiba.data.GameInfoRepository
 import com.zgsbrgr.demo.fiba.domain.MatchEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
 const val ARG_OBJECT = "arg_object"
 const val ARG_MATCH_ID = "arg_match_id"
@@ -53,7 +51,6 @@ class GameInfoViewModel @Inject constructor(
             }.launchIn(viewModelScope)
         }
     }
-
 }
 
 data class EventUIState(
