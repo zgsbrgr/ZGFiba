@@ -11,7 +11,7 @@ import com.zgsbrgr.demo.fiba.databinding.StatHeaderBinding
 class StatAdapter : ListAdapter<StatData, StatAdapter.StatViewHolder>(StatAdapterItemDiffUtil()) {
 
     override fun onBindViewHolder(holder: StatViewHolder, position: Int) {
-        holder.from(getItem(position))
+        holder.bind(getItem(position))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatViewHolder {
@@ -22,7 +22,7 @@ class StatAdapter : ListAdapter<StatData, StatAdapter.StatViewHolder>(StatAdapte
         private val binding: StatHeaderBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun from(item: StatData) {
+        fun bind(item: StatData) {
             binding.headerText.text = item.label
             binding.statRv.apply {
                 layoutManager = LinearLayoutManager(binding.statRv.context, LinearLayoutManager.HORIZONTAL, false)
