@@ -32,16 +32,14 @@ class RosterViewModel @Inject constructor(
         )
 
     private fun rosterUiStateStream(): Flow<RosterUiState> {
-        val homePlayer: Flow<List<Player>> = rosterRepository.fetchRosterForTeamExceptStatistics(
-            savedStateHandle.get<Team>("homeTeam")?.id!!
-        )
-        val awayPlayer: Flow<List<Player>> = rosterRepository.fetchRosterForTeamExceptStatistics(
-            savedStateHandle.get<Team>("awayTeam")?.id!!
-        )
 
         return combine(
-            homePlayer,
-            awayPlayer,
+            rosterRepository.fetchRosterForTeamExceptStatistics(
+                savedStateHandle.get<Team>("homeTeam")?.id!!
+            ),
+            rosterRepository.fetchRosterForTeamExceptStatistics(
+                savedStateHandle.get<Team>("awayTeam")?.id!!
+            ),
             ::Pair
         ).asResult()
             .map { homePlayersToAwayPlayers ->
