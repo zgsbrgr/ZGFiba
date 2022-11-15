@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.zgsbrgr.demo.fiba.MyActivityViewModel
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.ActivityMatchesBinding
+import com.zgsbrgr.demo.fiba.ext.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -27,10 +28,11 @@ class MatchesActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private val viewModel by viewModels<MyActivityViewModel>()
 
+    private val binding by viewBinding(ActivityMatchesBinding::inflate)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityMatchesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.matches_nav_host) as NavHostFragment
