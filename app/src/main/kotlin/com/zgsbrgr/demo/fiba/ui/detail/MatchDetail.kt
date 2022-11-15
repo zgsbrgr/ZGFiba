@@ -28,7 +28,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.MatchDetailBinding
 import com.zgsbrgr.demo.fiba.domain.Match
-import com.zgsbrgr.demo.fiba.ext.matchDate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.math.hypot
@@ -99,7 +98,7 @@ class MatchDetail : Fragment() {
                 viewModel.uiState.collect {
                     it.data?.let { match ->
                         viewBinding.apply {
-                            dateTv.matchDate(match.date)
+                            dateTv.text = resources.getString(R.string.date_pl, match.date)
                             homeTeam.text = match.home.team
                             awayTeam.text = match.away.team
                             tagTv.text = match.tag

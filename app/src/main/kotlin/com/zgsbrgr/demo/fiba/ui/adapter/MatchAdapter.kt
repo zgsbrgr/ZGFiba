@@ -15,7 +15,6 @@ import com.bumptech.glide.request.target.Target
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.ItemMatchBinding
 import com.zgsbrgr.demo.fiba.domain.Match
-import com.zgsbrgr.demo.fiba.ext.matchDate
 import java.util.UUID
 
 class MatchAdapter(
@@ -37,7 +36,7 @@ class MatchAdapter(
         fun bind(item: Match, clickListener: MatchItemClickListener) {
 
             binding.apply {
-                dateTv.matchDate(item.date)
+                dateTv.text = dateTv.context.resources.getString(R.string.date_pl, item.date)
                 homeTeam.text = item.home.team
                 awayTeam.text = item.away.team
                 tagTv.text = item.tag

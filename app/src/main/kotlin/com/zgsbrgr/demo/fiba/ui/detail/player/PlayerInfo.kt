@@ -19,10 +19,7 @@ import com.zgsbrgr.demo.fiba.MyActivityViewModel
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.PlayerPageBinding
 import com.zgsbrgr.demo.fiba.domain.Team
-import com.zgsbrgr.demo.fiba.ext.formatGamesPlayedToSetInTextView
-import com.zgsbrgr.demo.fiba.ext.formatPlayerHeightAndAgeToSetInTextView
-import com.zgsbrgr.demo.fiba.ext.formatPlayerNumberAndPosition
-import com.zgsbrgr.demo.fiba.ext.formatPlayerStatToSetInTextView
+import com.zgsbrgr.demo.fiba.util.formatPlayerHeightAndAgeToSetInTextView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -73,13 +70,16 @@ class PlayerInfo : Fragment() {
                     viewModel.uiState.collect {
                         it.player?.let { player ->
                             viewBinding.playerName.text = player.player
-                            viewBinding.playerPosition.formatPlayerNumberAndPosition(player.playedPosition)
-                            viewBinding.ppgValue.formatPlayerStatToSetInTextView(player.pointsAvg)
-                            viewBinding.rpgValue.formatPlayerStatToSetInTextView(player.reboundsAvg)
-                            viewBinding.apgValue.formatPlayerStatToSetInTextView(player.assistsAvg)
-                            viewBinding.pieValue.formatPlayerStatToSetInTextView(player.efficiency)
-                            viewBinding.playerData.formatPlayerHeightAndAgeToSetInTextView(player)
-                            viewBinding.gpValue.formatGamesPlayedToSetInTextView(player.gamesPlayed)
+                            viewBinding.playerPosition.text =
+                                resources.getString(R.string.player_number_and_position, "#33", player.playedPosition)
+                            viewBinding.ppgValue.text = player.pointsAvg.toString()
+                            viewBinding.rpgValue.text = player.reboundsAvg.toString()
+                            viewBinding.apgValue.text = player.assistsAvg.toString()
+                            viewBinding.pieValue.text = player.efficiency.toString()
+                            viewBinding.playerData.text =
+                                viewBinding.playerData.context
+                                    .formatPlayerHeightAndAgeToSetInTextView(player.height, player.age)
+                            viewBinding.gpValue.text = player.gamesPlayed.toString()
                             viewBinding.wlValue.text = player.winLose
                             viewBinding.p2Value.text = player.twoPointsPercentage
                             viewBinding.p3Value.text = player.threePointsPercentage
