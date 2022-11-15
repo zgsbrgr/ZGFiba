@@ -1,15 +1,15 @@
 [IN PROGRESS]
 ==================
-Development is in progress, checkout dev branch.
+Development is in progress --> dev branch.
 
 ## Development
 
  * Entirely written in [Kotlin](https://kotlinlang.org/).
  * Uses [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines/coroutines-guide.html)
- * Uses many of the [Architecture Components](https://developer.android.com/topic/libraries/architecture/), such as: Room, Lifecycle, Navigation.
+ * Uses many of the [Architecture Components](https://developer.android.com/topic/libraries/architecture/), such as: Lifecycle, Navigation.
  * Uses [Hilt](https://dagger.dev/hilt/) for dependency injection
  
- ### Code style
+## Code style
 
 This project uses [ktlint](https://github.com/JLLeitschuh/ktlint-gradle), and
 [detekt](https://github.com/detekt/detekt) gradle plugin.
