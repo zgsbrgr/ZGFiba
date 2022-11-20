@@ -125,13 +125,10 @@ class MatchDetail : Fragment() {
                         viewBinding.overlapInfo.post {
                             showOverlap()
                         }
+
                         true
                     } else
                         false
-                }
-
-                override fun onPrepareMenu(menu: Menu) {
-                    super.onPrepareMenu(menu)
                 }
             },
             viewLifecycleOwner, Lifecycle.State.RESUMED
@@ -188,7 +185,7 @@ class MatchDetail : Fragment() {
     private fun showOverlap() {
 
         if (!isOpened) {
-
+            // TODO this value is not calculated first
             val x = viewBinding.overlapInfo.right
             val y = viewBinding.overlapInfo.top
 
