@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.flowOn
 class GameInfoRepositoryImpl : GameInfoRepository {
 
     override fun fetchGameInfo(id: String): Flow<MatchEvent> = flow {
-        val randomEvent = MatchEventTeam.randomMatchEvent()
         while (true) {
+            val randomEvent = MatchEventTeam.randomMatchEvent()
             delay(600)
             emit(
                 MatchEvent(
