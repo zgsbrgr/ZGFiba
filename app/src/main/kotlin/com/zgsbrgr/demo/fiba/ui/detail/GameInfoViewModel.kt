@@ -8,12 +8,14 @@ import com.zgsbrgr.demo.fiba.asResult
 import com.zgsbrgr.demo.fiba.data.GameInfoRepository
 import com.zgsbrgr.demo.fiba.domain.MatchEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 const val ARG_OBJECT = "arg_object"
@@ -21,35 +23,49 @@ const val ARG_MATCH_ID = "arg_match_id"
 
 @HiltViewModel
 class GameInfoViewModel @Inject constructor(
-    gameInfoRepository: GameInfoRepository,
-    savedStateHandle: SavedStateHandle
+    private val gameInfoRepository: GameInfoRepository,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(EventUIState(loading = true))
-    val uiState: StateFlow<EventUIState> = _uiState.asStateFlow()
+    private val _uiState = MutableSharedFlow<EventUIState>(
+        extraBufferCapacity = 1,
+        onBufferOverflow =
+        BufferOverflow.SUSPEND
+    )
+    val uiState: SharedFlow<EventUIState> = _uiState.asSharedFlow()
 
-    init {
-        // limit only to summary tab
+    private var job = Job()
+        get() {
+            if (field.isCancelled) field = Job()
+            return field
+        }
+
+    fun loadEvents() {
         if (savedStateHandle.get<Int>(ARG_OBJECT) == 1) {
             val infoResult =
                 gameInfoRepository.fetchGameInfo(savedStateHandle.get<String>(ARG_MATCH_ID)!!).asResult()
-            infoResult.onEach { result ->
-
-                _uiState.update {
-                    when (result) {
-                        is Result.Loading -> {
-                            it.copy(loading = true)
+            viewModelScope.launch(job) {
+                infoResult.collect { result ->
+                    _uiState.tryEmit(
+                        when (result) {
+                            is Result.Loading -> {
+                                EventUIState(loading = true)
+                            }
+                            is Result.Success -> {
+                                EventUIState(loading = false, data = result.data)
+                            }
+                            is Result.Error -> {
+                                EventUIState(loading = false, error = result.exception?.message)
+                            }
                         }
-                        is Result.Success -> {
-                            it.copy(loading = false, data = result.data)
-                        }
-                        is Result.Error -> {
-                            it.copy(loading = false, error = result.exception?.message)
-                        }
-                    }
+                    )
                 }
-            }.launchIn(viewModelScope)
+            }
         }
+    }
+
+    fun removeUpdates() {
+        job.cancel()
     }
 }
 

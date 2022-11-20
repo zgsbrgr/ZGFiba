@@ -52,26 +52,30 @@ class GameInfo : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.uiState.collect {
-                        it.data?.let { event ->
-                            eventList.add(event)
-                            if (adapter.currentList.isEmpty())
-                                adapter.submitList(eventList)
+                viewModel.uiState.collect {
+                    it.data?.let { event ->
+                        eventList.add(event)
+                        if (adapter.currentList.isEmpty())
+                            adapter.submitList(eventList)
 
-                            adapter.notifyItemInserted(eventList.size)
-                            viewBinding.eventRv.scrollToPosition(eventList.size - 1)
-                        }
-
-                        if (it.error != null)
-                            Toast.makeText(
-                                requireActivity(),
-                                it.error.toString(),
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
+                        adapter.notifyItemInserted(eventList.size)
+                        viewBinding.eventRv.scrollToPosition(eventList.size - 1)
                     }
+
+                    if (it.error != null)
+                        Toast.makeText(
+                            requireActivity(),
+                            it.error.toString(),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
                 }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.loadEvents()
             }
         }
     }
@@ -79,6 +83,11 @@ class GameInfo : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _viewBinding = null
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.removeUpdates()
     }
 }
 
