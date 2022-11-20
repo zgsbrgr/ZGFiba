@@ -98,7 +98,7 @@ class Roster : Fragment() {
             playerName.text = player.player
             playerInfo.text = playerInfo.context.formatPlayerHeightAndAgeToSetInTextView(player.height, player.age)
         }
-        dialogBinding.navigateToStatIcon.setOnClickListener {
+        dialogBinding.root.setOnClickListener {
             val bundle = bundleOf(
                 "team" to if (homeOrAwayTeam == Teams.HOME) args.homeTeam else args.awayTeam,
                 "position" to playerPosition
