@@ -1,5 +1,7 @@
+@file:Suppress("TooGenericExceptionCaught")
 package com.zgsbrgr.demo.fiba.data
 
+import com.zgsbrgr.demo.fiba.Result
 import com.zgsbrgr.demo.fiba.di.Dispatcher
 import com.zgsbrgr.demo.fiba.di.ZGFibaDispatchers
 import com.zgsbrgr.demo.fiba.domain.Player
@@ -13,8 +15,12 @@ class PlayerRepositoryImpl @Inject constructor(
     @Dispatcher(ZGFibaDispatchers.IO) private val ioDispatcher: CoroutineDispatcher
 ) : PlayerRepository {
 
-    override suspend fun fetchPlayer(teamId: String, positionInTeam: Int): Player =
+    override suspend fun fetchPlayer(teamId: String, positionInTeam: Int): Result<Player> =
         withContext(ioDispatcher) {
-            networkDataSource.getTeamRoster(teamId)[positionInTeam].toRoster()
+            try {
+                Result.Success(networkDataSource.getTeamRoster(teamId)[positionInTeam].toRoster())
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
         }
 }

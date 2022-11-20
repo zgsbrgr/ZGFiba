@@ -49,10 +49,16 @@ fun Player.toStringList() = listOf<String>(
     efficiency.toString()
 )
 
+fun Player.toStatDataStringList() = listOf<String>(
+    pointsAvg.toString(),
+    reboundsAvg.toString(),
+    assistsAvg.toString()
+)
+
 fun Player.toStatData() =
     StatData(
         label = this.player,
-        items = this.toStringList()
+        items = this.toStatDataStringList()
     )
 
 fun List<Player>.toStatDataList(): List<StatData> {

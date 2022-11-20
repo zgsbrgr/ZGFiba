@@ -49,16 +49,14 @@ class TeamStatViewModel @Inject constructor(
     }
 
     private fun teamStatUiState(): Flow<TeamStatUiState> {
-        val homeTeamRoster = rosterRepository.fetchRosterForTeam(
-            savedStateHandle.get<Team>("homeTeam")?.id!!
-        )
-        val awayTeamRoster = rosterRepository.fetchRosterForTeam(
-            savedStateHandle.get<Team>("awayTeam")?.id!!
-        )
 
         return combine(
-            homeTeamRoster,
-            awayTeamRoster,
+            rosterRepository.fetchRosterForTeam(
+                savedStateHandle.get<Team>("homeTeam")?.id!!
+            ),
+            rosterRepository.fetchRosterForTeam(
+                savedStateHandle.get<Team>("awayTeam")?.id!!
+            ),
             ::Pair
         ).asResult().map { homeTeamToAwayTeam ->
             when (homeTeamToAwayTeam) {

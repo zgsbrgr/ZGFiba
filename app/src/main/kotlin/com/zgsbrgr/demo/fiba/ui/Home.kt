@@ -17,7 +17,8 @@ import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.HomeBinding
 import com.zgsbrgr.demo.fiba.domain.Match
 import com.zgsbrgr.demo.fiba.ui.adapter.SectionAdapter
-import com.zgsbrgr.demo.fiba.ui.adapter.SectionClickListener
+import com.zgsbrgr.demo.fiba.ui.adapter.SectionAllClickListener
+import com.zgsbrgr.demo.fiba.ui.adapter.SectionMatchClickListener
 import com.zgsbrgr.demo.fiba.ui.adapter.decor.SpaceItemDecoration
 import com.zgsbrgr.demo.fiba.ui.detail.DetailActivity
 import com.zgsbrgr.demo.fiba.ui.matches.MatchesActivity
@@ -50,34 +51,32 @@ class Home : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = SectionAdapter(
-            SectionClickListener { item, title, imageView ->
-                if (item is Match) {
-                    imageView?.let {
-                        val intent = Intent(requireActivity(), DetailActivity::class.java)
-
-                        intent.putExtra("match", item)
-                        intent.putExtra("imageUri", item.thumb)
-                        intent.putExtra("label", title)
-                        val options = ActivityOptions
-                            .makeSceneTransitionAnimation(
-                                requireActivity(),
-                                it,
-                                item.thumb!!
-                            )
-                        startActivity(intent, options.toBundle())
-                        // shared element transition with fragment
+            SectionMatchClickListener { item, title, imageView ->
+                imageView?.let {
+                    val intent = Intent(requireActivity(), DetailActivity::class.java)
+                    intent.putExtra("match", item as Match)
+                    intent.putExtra("imageUri", item.thumb)
+                    intent.putExtra("label", title)
+                    val options = ActivityOptions
+                        .makeSceneTransitionAnimation(
+                            requireActivity(),
+                            it,
+                            item.thumb!!
+                        )
+                    startActivity(intent, options.toBundle())
+                    // shared element transition with fragment
 //                        val extras = FragmentNavigatorExtras(
 //                            it to item.thumb!!
 //                        )
 //                        val action = HomeDirections.actionHomeToMatchDetail(imageUri = item.thumb, match = item)
 //                        findNavController().navigate(action, extras)
-                    }
-                } else if (item is Int) {
-                    val intent = Intent(requireActivity(), MatchesActivity::class.java)
-                    intent.putExtra("label", title)
-                    intent.putExtra("position", item)
-                    startActivity(intent)
                 }
+            },
+            SectionAllClickListener { title, position ->
+                val intent = Intent(requireActivity(), MatchesActivity::class.java)
+                intent.putExtra("label", title)
+                intent.putExtra("position", position)
+                startActivity(intent)
             }
         )
         adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY

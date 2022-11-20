@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.zgsbrgr.demo.fiba.MyActivityViewModel
 import com.zgsbrgr.demo.fiba.R
 import com.zgsbrgr.demo.fiba.databinding.ActivityDetailBinding
+import com.zgsbrgr.demo.fiba.ext.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -28,10 +29,11 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private val viewModel by viewModels<MyActivityViewModel>()
 
+    private val binding by viewBinding(ActivityDetailBinding::inflate)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.detail_nav_host) as NavHostFragment

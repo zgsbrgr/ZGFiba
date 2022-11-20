@@ -21,9 +21,9 @@ import com.zgsbrgr.demo.fiba.databinding.PlayerDialogBinding
 import com.zgsbrgr.demo.fiba.databinding.RosterBinding
 import com.zgsbrgr.demo.fiba.domain.Player
 import com.zgsbrgr.demo.fiba.domain.Teams
-import com.zgsbrgr.demo.fiba.ext.formatPlayerHeightAndAgeToSetInTextView
 import com.zgsbrgr.demo.fiba.ui.adapter.RosterAdapter
 import com.zgsbrgr.demo.fiba.ui.adapter.RosterItemClickListener
+import com.zgsbrgr.demo.fiba.util.formatPlayerHeightAndAgeToSetInTextView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -96,9 +96,9 @@ class Roster : Fragment() {
         val dialogBinding = PlayerDialogBinding.inflate(layoutInflater)
         dialogBinding.apply {
             playerName.text = player.player
-            playerInfo.formatPlayerHeightAndAgeToSetInTextView(player)
+            playerInfo.text = playerInfo.context.formatPlayerHeightAndAgeToSetInTextView(player.height, player.age)
         }
-        dialogBinding.navigateToStatIcon.setOnClickListener {
+        dialogBinding.root.setOnClickListener {
             val bundle = bundleOf(
                 "team" to if (homeOrAwayTeam == Teams.HOME) args.homeTeam else args.awayTeam,
                 "position" to playerPosition

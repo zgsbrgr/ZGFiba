@@ -14,6 +14,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.onNavDestinationSelected
 import com.google.android.material.snackbar.Snackbar
 import com.zgsbrgr.demo.fiba.databinding.ActivityMainBinding
+import com.zgsbrgr.demo.fiba.ext.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -25,12 +26,13 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<MyActivityViewModel>()
 
+    private val binding by viewBinding(ActivityMainBinding::inflate)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val topLevelDestinations = setOf(

@@ -39,19 +39,27 @@ class RosterAdapter(
                     ResourcesCompat.getColor(binding.root.resources, R.color.blue_dark, null)
                 )
             item.first?.let { homePlayer ->
-                binding.homePlayer.text = homePlayer.player
-                binding.homePlayerNr.text = homePlayer.playedPosition
-                binding.homePlayer.visibility = View.VISIBLE
-                binding.homePlayerNr.visibility = View.VISIBLE
+                binding.homePlayer.apply {
+                    text = homePlayer.player
+                    visibility = View.VISIBLE
+                }
+                binding.homePlayerNr.apply {
+                    text = homePlayer.playedPosition
+                    visibility = View.VISIBLE
+                }
             } ?: kotlin.run {
                 binding.homePlayer.visibility = View.GONE
                 binding.homePlayerNr.visibility = View.GONE
             }
             item.second?.let { awayPlayer ->
-                binding.awayPlayer.text = awayPlayer.player
-                binding.awayPlayerNr.text = awayPlayer.playedPosition
-                binding.awayPlayer.visibility = View.VISIBLE
-                binding.awayPlayerNr.visibility = View.VISIBLE
+                binding.awayPlayer.apply {
+                    text = awayPlayer.player
+                    visibility = View.VISIBLE
+                }
+                binding.awayPlayerNr.apply {
+                    text = awayPlayer.playedPosition
+                    visibility = View.VISIBLE
+                }
             } ?: kotlin.run {
                 binding.awayPlayer.visibility = View.GONE
                 binding.awayPlayerNr.visibility = View.GONE
