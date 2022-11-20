@@ -14,13 +14,18 @@ import com.zgsbrgr.demo.fiba.domain.Section
 import com.zgsbrgr.demo.fiba.ui.adapter.decor.SpaceItemDecoration
 
 class SectionAdapter(
-    private val clickListener: SectionClickListener<in Any>
+    private val clickListener: SectionMatchClickListener<in Any>,
+    private val allClickListener: SectionAllClickListener
 ) : ListAdapter<Section, SectionAdapter.SectionViewHolder>(SectionDiffCallback()) {
 
     private val viewPool: RecyclerView.RecycledViewPool = RecyclerView.RecycledViewPool()
 
     override fun onBindViewHolder(holder: SectionViewHolder, position: Int) {
-        holder.bind(getItem(position), clickListener)
+        holder.bind(
+            getItem(position),
+            clickListener,
+            allClickListener
+        )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionViewHolder {
@@ -31,22 +36,31 @@ class SectionAdapter(
         private val binding: ItemSectionBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Section, clickListener: SectionClickListener<in Any>) {
-
-            binding.apply {
-                sectionTitle.text = item.section
-            }
+        fun bind(
+            item: Section,
+            clickListener: SectionMatchClickListener<in Any>,
+            allClickListener: SectionAllClickListener
+        ) {
             val adapter = MatchAdapter(
                 MatchItemClickListener { match, imageView ->
                     Log.d("Section List", "match item clicked with id: ${match.id} and shared image ${imageView.id}")
-                    clickListener.onClick(match, item.section, imageView)
+                    clickListener.onClick(
+                        match,
+                        item.section,
+                        imageView
+                    )
                 }
             )
-
-            binding.viewAllTv.setOnClickListener {
-                clickListener.onClick(bindingAdapterPosition, item.section, null)
+            binding.apply {
+                sectionTitle.text = item.section
+                viewAllTv.setOnClickListener {
+                    allClickListener.onClick(
+                        title = item.section,
+                        position = bindingAdapterPosition
+                    )
+                }
+                gamesRv.adapter = adapter
             }
-            binding.gamesRv.adapter = adapter
             adapter.submitList(item.matches)
         }
 
@@ -75,6 +89,10 @@ class SectionAdapter(
     }
 }
 
-class SectionClickListener<T>(val clickListener: (item: T, sectionTitle: String, imageView: ImageView?) -> Unit) {
+class SectionMatchClickListener<T>(val clickListener: (item: T, sectionTitle: String, imageView: ImageView?) -> Unit) {
     fun onClick(item: T, sectionTitle: String, imageView: ImageView?) = clickListener(item, sectionTitle, imageView)
+}
+
+class SectionAllClickListener(val clickListener: (title: String, position: Int) -> Unit) {
+    fun onClick(title: String, position: Int) = clickListener(title, position)
 }
