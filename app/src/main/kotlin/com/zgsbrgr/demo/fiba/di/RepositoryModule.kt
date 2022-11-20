@@ -13,14 +13,16 @@ import com.zgsbrgr.demo.fiba.network.ZGFibaNetworkDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
     @Provides
+    @Singleton
     fun provideHomeRepository(
         networkDataSource: ZGFibaNetworkDataSource,
         @Dispatcher(IO) ioDispatcher: CoroutineDispatcher,
@@ -28,6 +30,7 @@ object RepositoryModule {
         HomeRepositoryImpl(networkDataSource, ioDispatcher)
 
     @Provides
+    @Singleton
     fun provideRosterRepository(
         networkDataSource: ZGFibaNetworkDataSource,
         @Dispatcher(IO) ioDispatcher: CoroutineDispatcher
@@ -35,6 +38,7 @@ object RepositoryModule {
         RosterRepositoryImpl(networkDataSource, ioDispatcher)
 
     @Provides
+    @Singleton
     fun providePlayerRepository(
         networkDataSource: ZGFibaNetworkDataSource,
         @Dispatcher(IO) ioDispatcher: CoroutineDispatcher
@@ -42,5 +46,6 @@ object RepositoryModule {
         PlayerRepositoryImpl(networkDataSource, ioDispatcher)
 
     @Provides
+    @Singleton
     fun provideGameInfoRepository(): GameInfoRepository = GameInfoRepositoryImpl()
 }
