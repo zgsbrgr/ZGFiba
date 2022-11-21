@@ -131,7 +131,7 @@ class MatchDetail : Fragment() {
                         false
                 }
             },
-            viewLifecycleOwner, Lifecycle.State.RESUMED
+            viewLifecycleOwner, Lifecycle.State.STARTED
         )
     }
 
